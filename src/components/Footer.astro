@@ -1,0 +1,23 @@
+---
+interface Props {
+  autor: string;
+  docente: string;
+  materia: string;
+}
+
+const { autor, docente, materia } = Astro.props;
+---
+
+<footer class="pie">
+  <div class="envolvente flex items-end justify-between gap-12">
+    <div>
+      <p class="font-display text-xl font-bold text-paper">Taller de Investigación · USFQ</p>
+      <p class="mt-2">{autor}</p>
+      <p>Docente: {docente} · {materia}</p>
+    </div>
+    <p class="max-w-md text-right">
+      Los rostros de los participantes están desenfocados para proteger su identidad.
+      San Francisco de Quito, 2026.
+    </p>
+  </div>
+</footer>

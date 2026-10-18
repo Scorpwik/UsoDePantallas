@@ -1,0 +1,40 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import PanelCristal from './PanelCristal.astro';
+
+interface Props {
+  entrada: CollectionEntry<'secciones'>;
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+const { titulo, retos = [], sorpresas = [], diferente } = entrada.data;
+---
+
+<section id="reflexion" class="seccion" data-clip>
+  <div class="envolvente">
+    <p class="kicker">08</p>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <div class="mt-12 grid grid-cols-3 gap-5">
+      <PanelCristal class="p-8">
+        <h3 class="font-display text-2xl font-bold">Retos</h3>
+        <ul class="mt-5 space-y-4 text-mute">
+          {retos.map((reto) => <li>{reto}</li>)}
+        </ul>
+      </PanelCristal>
+      <PanelCristal class="p-8">
+        <h3 class="font-display text-2xl font-bold">Sorpresas</h3>
+        <ul class="mt-5 space-y-4 text-mute">
+          {sorpresas.map((item) => <li>{item}</li>)}
+        </ul>
+      </PanelCristal>
+      <PanelCristal class="p-8">
+        <h3 class="font-display text-2xl font-bold">Lo que haría diferente</h3>
+        <p class="mt-5 text-mute">{diferente}</p>
+      </PanelCristal>
+    </div>
+    <div class="prosa mt-12">
+      <Content />
+    </div>
+  </div>
+</section>

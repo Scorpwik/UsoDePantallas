@@ -1,0 +1,39 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import PanelCristal from './PanelCristal.astro';
+
+interface Props {
+  entrada: CollectionEntry<'secciones'>;
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+const { titulo, enfoque, posicion, sesgo, etica } = entrada.data;
+
+const bloques = [
+  { titulo: 'Enfoque', texto: enfoque },
+  { titulo: 'Observador participante periférico', texto: posicion },
+  { titulo: 'Sesgo declarado', texto: sesgo },
+  { titulo: 'Consideraciones éticas', texto: etica },
+].filter((b) => b.texto);
+---
+
+<section id="metodologia" class="seccion" data-clip>
+  <div class="envolvente">
+    <p class="kicker">03</p>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <div class="mt-12 grid grid-cols-2 gap-5">
+      {
+        bloques.map((bloque) => (
+          <PanelCristal class="p-8">
+            <h3 class="font-display text-2xl font-bold tracking-tight">{bloque.titulo}</h3>
+            <p class="mt-4 text-mute">{bloque.texto}</p>
+          </PanelCristal>
+        ))
+      }
+    </div>
+    <div class="prosa mt-12">
+      <Content />
+    </div>
+  </div>
+</section>

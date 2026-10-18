@@ -1,0 +1,22 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  entrada: CollectionEntry<'secciones'>;
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+---
+
+<section id="conclusiones" class="seccion" data-clip>
+  <div class="envolvente grid grid-cols-[0.8fr_1.2fr] gap-16">
+    <div>
+      <p class="kicker">07</p>
+      <h2 class="titulo-seccion">{entrada.data.titulo}</h2>
+    </div>
+    <div class="prosa text-[19px] leading-relaxed">
+      <Content />
+    </div>
+  </div>
+</section>

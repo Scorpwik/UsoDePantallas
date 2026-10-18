@@ -1,0 +1,54 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import PanelCristal from './PanelCristal.astro';
+
+interface Props {
+  entrada: CollectionEntry<'secciones'>;
+  referencias: CollectionEntry<'referencias'>[];
+}
+
+const { entrada, referencias } = Astro.props;
+const { Content } = await render(entrada);
+const { titulo, factoresParentales = [], impactoDesarrollo = [] } = entrada.data;
+---
+
+<section id="marco-teorico" class="seccion" data-clip>
+  <div class="envolvente">
+    <p class="kicker">02</p>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <div class="prosa mt-8">
+      <Content />
+    </div>
+
+    <h3 class="mt-16 font-display text-3xl font-bold tracking-tight">Factores parentales</h3>
+    <div class="mt-8 grid grid-cols-2 gap-5">
+      {
+        factoresParentales.map((factor) => (
+          <PanelCristal class="p-8">
+            <h4 class="font-display text-2xl font-bold">{factor.titulo}</h4>
+            <p class="mt-4 text-mute">{factor.texto}</p>
+          </PanelCristal>
+        ))
+      }
+    </div>
+
+    <h3 class="mt-16 font-display text-3xl font-bold tracking-tight">Impacto en el desarrollo</h3>
+    <div class="mt-8 grid grid-cols-2 gap-5">
+      {
+        impactoDesarrollo.map((item) => (
+          <PanelCristal class="p-8">
+            <h4 class="font-display text-2xl font-bold">{item.titulo}</h4>
+            <p class="mt-4 text-mute">{item.texto}</p>
+          </PanelCristal>
+        ))
+      }
+    </div>
+
+    <aside class="mt-16" aria-labelledby="refs-titulo">
+      <h3 id="refs-titulo" class="font-display text-3xl font-bold tracking-tight">Referencias</h3>
+      <ol class="prosa mt-6 list-decimal space-y-3 pl-6">
+        {referencias.map((ref) => <li>{ref.data.cita}</li>)}
+      </ol>
+    </aside>
+  </div>
+</section>

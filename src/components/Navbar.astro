@@ -1,0 +1,24 @@
+---
+const enlaces = [
+  { href: '#planteamiento', label: 'Planteamiento' },
+  { href: '#marco-teorico', label: 'Marco teórico' },
+  { href: '#metodologia', label: 'Metodología' },
+  { href: '#escena', label: 'Escena' },
+  { href: '#diario', label: 'Diario' },
+  { href: '#categorias', label: 'Categorías' },
+  { href: '#conclusiones', label: 'Conclusiones' },
+  { href: '#reflexion', label: 'Reflexión' },
+];
+---
+
+<nav class="navbar" data-nav aria-label="Secciones del informe">
+  <a class="navbar-marca" href="#inicio">Uso de pantallas</a>
+  <div class="navbar-links">
+    <span class="navbar-indicador" data-nav-indicador aria-hidden="true"></span>
+    {
+      enlaces.map((enlace) => (
+        <a href={enlace.href}>{enlace.label}</a>
+      ))
+    }
+  </div>
+</nav>

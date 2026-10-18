@@ -1,0 +1,71 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Planteamiento from '../components/Planteamiento.astro';
+import MarcoTeorico from '../components/MarcoTeorico.astro';
+import Metodologia from '../components/Metodologia.astro';
+import EscenaCultural from '../components/EscenaCultural.astro';
+import DiarioCampo from '../components/DiarioCampo.astro';
+import Categorias from '../components/Categorias.astro';
+import Conclusiones from '../components/Conclusiones.astro';
+import Reflexion from '../components/Reflexion.astro';
+import Footer from '../components/Footer.astro';
+
+const textos = await getEntry('textos', 'general');
+if (!textos) throw new Error('Falta src/content/textos/general.md');
+
+const secciones = await getCollection('secciones');
+const porId = Object.fromEntries(secciones.map((s) => [s.id, s]));
+
+const planteamiento = porId['planteamiento'];
+const marco = porId['marco-teorico'];
+const metodologia = porId['metodologia'];
+const escena = porId['escena'];
+const conclusiones = porId['conclusiones'];
+const reflexion = porId['reflexion'];
+
+if (!planteamiento || !marco || !metodologia || !escena || !conclusiones || !reflexion) {
+  throw new Error('Faltan archivos en src/content/secciones/');
+}
+
+const diario = (await getCollection('diario')).sort(
+  (a, b) => a.data.fecha.valueOf() - b.data.fecha.valueOf(),
+);
+const referencias = (await getCollection('referencias')).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+const categorias = (await getCollection('categorias')).sort(
+  (a, b) => a.data.orden - b.data.orden,
+);
+
+const t = textos.data;
+---
+
+<Layout title={`${t.titulo} — ${t.autor}`} description={t.subtitulo} autor={t.autor}>
+  <Navbar />
+  <main id="contenido">
+    <Hero
+      titulo={t.titulo}
+      subtitulo={t.subtitulo}
+      autor={t.autor}
+      docente={t.docente}
+      materia={t.materia}
+      fecha={t.fecha}
+      ciudad={t.ciudad}
+      salidas={t.salidas}
+      observaciones={t.observaciones}
+      entradasDiario={t.entradasDiario}
+    />
+    <Planteamiento entrada={planteamiento} />
+    <MarcoTeorico entrada={marco} referencias={referencias} />
+    <Metodologia entrada={metodologia} />
+    <EscenaCultural entrada={escena} />
+    <DiarioCampo entradas={diario} />
+    <Categorias categorias={categorias} diario={diario} />
+    <Conclusiones entrada={conclusiones} />
+    <Reflexion entrada={reflexion} />
+  </main>
+  <Footer autor={t.autor} docente={t.docente} materia={t.materia} />
+</Layout>

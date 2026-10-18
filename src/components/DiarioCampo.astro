@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import EntradaDiario from './EntradaDiario.astro';
+
+interface Props {
+  entradas: CollectionEntry<'diario'>[];
+}
+
+const { entradas } = Astro.props;
+---
+
+<section id="diario" class="seccion" data-clip>
+  <div class="envolvente">
+    <p class="kicker">05</p>
+    <h2 class="titulo-seccion">Diario de campo</h2>
+    <p class="prosa mt-6" data-revelar>
+      Cada entrada agrupa fecha, hora, espacio, descripción, impresiones, reflexiones, frases oídas,
+      material visual y preguntas que quedaron abiertas. Las nuevas notas publicadas en el panel de
+      edición aparecen aquí sin cambiar el código.
+    </p>
+    <div class="mt-12 space-y-10">
+      {entradas.map((entrada) => <EntradaDiario entrada={entrada} />)}
+    </div>
+  </div>
+</section>

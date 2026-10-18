@@ -1,0 +1,94 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ImagenCampo from './ImagenCampo.astro';
+import PanelCristal from './PanelCristal.astro';
+
+interface Props {
+  entrada: CollectionEntry<'diario'>;
+  compacta?: boolean;
+}
+
+const { entrada, compacta = false } = Astro.props;
+const d = entrada.data;
+const fecha = d.fecha.toLocaleDateString('es-EC', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<article class:list={['cat-entrada', compacta && 'h-full']}>
+  <PanelCristal class="h-full overflow-hidden">
+    <div class:list={[compacta ? 'grid grid-cols-[280px_1fr]' : 'grid grid-cols-[1.05fr_1fr]', 'gap-0']}>
+      <div class="relative min-h-[320px] overflow-hidden p-4">
+        <div class="h-full min-h-[320px] overflow-hidden rounded-[22px]" data-parallax>
+          <ImagenCampo
+            src={d.imagenPrincipal}
+            alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
+            class="img-parallax min-h-[320px]"
+          />
+        </div>
+      </div>
+      <div class="p-8">
+        <p class="text-sm text-porsche">
+          {fecha} · {d.hora} · {d.espacio}
+        </p>
+        <h3 class="mt-3 font-display text-3xl font-bold tracking-tight">{d.titulo}</h3>
+        <p class="mt-4 text-mute">{d.descripcion}</p>
+        {
+          !compacta && (
+            <>
+              <h4 class="mt-6 font-semibold text-paper">Impresiones sensoriales</h4>
+              <p class="mt-2 text-mute">{d.impresiones}</p>
+              <h4 class="mt-6 font-semibold text-paper">Reflexión</h4>
+              <p class="mt-2 text-mute">{d.reflexion}</p>
+            </>
+          )
+        }
+        {
+          d.frases.length > 0 && (
+            <ul class="mt-5 space-y-2">
+              {d.frases.map((frase) => (
+                <li class="text-paper italic">“{frase}”</li>
+              ))}
+            </ul>
+          )
+        }
+        <p class="mt-6 text-xs text-mute">{d.notaPrivacidad}</p>
+        {
+          d.desenfoqueAplicado && (
+            <p class="mt-2 text-xs text-porsche">Desenfoque aplicado</p>
+          )
+        }
+      </div>
+    </div>
+    {
+      !compacta && d.galeria.length > 0 && (
+        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
+          {d.galeria.map((src) => (
+            <ImagenCampo
+              src={src}
+              alt={`Imagen adicional desenfocada de ${d.espacio}`}
+              width={1200}
+              height={800}
+              class="max-h-56"
+            />
+          ))}
+        </div>
+      )
+    }
+    {
+      !compacta && d.preguntasPendientes.length > 0 && (
+        <div class="px-8 pb-8">
+          <h4 class="font-semibold text-paper">Preguntas pendientes</h4>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-mute">
+            {d.preguntasPendientes.map((p) => (
+              <li>{p}</li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </PanelCristal>
+</article>

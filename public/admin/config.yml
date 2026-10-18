@@ -1,0 +1,165 @@
+backend:
+  name: github
+  repo: Scorpwik/UsoDePantallas
+  branch: main
+
+# Descomentar la línea siguiente y correr `npx decap-server` para editar en local sin GitHub.
+# local_backend: true
+
+site_url: https://uso-de-pantallas.vercel.app
+display_url: https://uso-de-pantallas.vercel.app
+logo_url: /favicon.svg
+
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: es
+
+collections:
+  - name: textos_generales
+    label: Textos generales
+    files:
+      - name: general
+        label: Datos del proyecto
+        file: src/content/textos/general.md
+        fields:
+          - { name: titulo, label: Título, widget: string }
+          - { name: subtitulo, label: Subtítulo, widget: text }
+          - { name: autor, label: Autor, widget: string }
+          - { name: docente, label: Docente, widget: string }
+          - { name: materia, label: Materia, widget: string }
+          - { name: fecha, label: Fecha de entrega, widget: datetime, date_format: YYYY-MM-DD, time_format: false }
+          - { name: ciudad, label: Ciudad, widget: string }
+          - { name: salidas, label: Número de salidas, widget: number, value_type: int }
+          - { name: observaciones, label: Número de observaciones, widget: number, value_type: int }
+          - { name: entradasDiario, label: Número de entradas del diario, widget: number, value_type: int }
+          - { name: body, label: Notas, widget: markdown, required: false }
+
+  - name: secciones
+    label: Secciones
+    folder: src/content/secciones
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: yaml-frontmatter
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: orden, label: Orden, widget: number, value_type: int }
+      - { name: tema, label: Tema, widget: text, required: false }
+      - { name: pregunta, label: Pregunta de investigación, widget: text, required: false }
+      - { name: objetivoGeneral, label: Objetivo general, widget: text, required: false }
+      - name: objetivosEspecificos
+        label: Objetivos específicos
+        widget: list
+        required: false
+        field: { name: objetivo, label: Objetivo, widget: text }
+      - name: factoresParentales
+        label: Factores parentales
+        widget: list
+        required: false
+        fields:
+          - { name: titulo, label: Título, widget: string }
+          - { name: texto, label: Texto, widget: text }
+      - name: impactoDesarrollo
+        label: Impacto en el desarrollo
+        widget: list
+        required: false
+        fields:
+          - { name: titulo, label: Título, widget: string }
+          - { name: texto, label: Texto, widget: text }
+      - { name: enfoque, label: Enfoque, widget: text, required: false }
+      - { name: posicion, label: Posición del investigador, widget: text, required: false }
+      - { name: sesgo, label: Sesgo declarado, widget: text, required: false }
+      - { name: etica, label: Consideraciones éticas, widget: text, required: false }
+      - { name: contexto, label: Contexto de observación, widget: text, required: false }
+      - { name: significados, label: Significados compartidos, widget: text, required: false }
+      - name: salidasCampo
+        label: Salidas de campo
+        widget: list
+        required: false
+        fields:
+          - { name: fecha, label: Fecha, widget: string }
+          - { name: lugar, label: Lugar, widget: string }
+          - { name: nota, label: Nota, widget: text }
+      - name: retos
+        label: Retos
+        widget: list
+        required: false
+        field: { name: reto, label: Reto, widget: text }
+      - name: sorpresas
+        label: Sorpresas
+        widget: list
+        required: false
+        field: { name: sorpresa, label: Sorpresa, widget: text }
+      - { name: diferente, label: Lo que haría diferente, widget: text, required: false }
+      - { name: body, label: Cuerpo, widget: markdown, required: false }
+
+  - name: diario
+    label: Diario de campo
+    folder: src/content/diario
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    format: yaml-frontmatter
+    summary: "{{titulo}} — {{espacio}}"
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: fecha, label: Fecha, widget: datetime, date_format: YYYY-MM-DD, time_format: false }
+      - { name: hora, label: Hora, widget: string, hint: "Formato 24h, por ejemplo 13:25" }
+      - { name: espacio, label: Espacio, widget: string }
+      - { name: descripcion, label: Descripción, widget: text }
+      - { name: impresiones, label: Impresiones sensoriales, widget: text }
+      - { name: reflexion, label: Reflexión, widget: text }
+      - name: frases
+        label: Frases de los participantes
+        widget: list
+        field: { name: frase, label: Frase, widget: string }
+      - name: categorias
+        label: Categorías asociadas
+        widget: list
+        field:
+          name: categoria
+          label: Categoría
+          widget: select
+          options:
+            - { label: "El dispositivo como mediador de crisis", value: mediador-crisis }
+            - { label: "Aislamiento social vs. consumo compartido", value: aislamiento-consumo }
+            - { label: "Rituales de transición", value: rituales-transicion }
+      - { name: imagenPrincipal, label: Imagen principal, widget: image }
+      - name: galeria
+        label: Galería de imágenes
+        widget: list
+        field: { name: imagen, label: Imagen, widget: image }
+      - name: preguntasPendientes
+        label: Preguntas pendientes
+        widget: list
+        field: { name: pregunta, label: Pregunta, widget: text }
+      - { name: notaPrivacidad, label: Nota de privacidad, widget: text }
+      - { name: desenfoqueAplicado, label: La imagen tiene desenfoque aplicado, widget: boolean, default: true }
+      - { name: body, label: Notas adicionales, widget: markdown, required: false }
+
+  - name: referencias
+    label: Referencias
+    folder: src/content/referencias
+    create: true
+    slug: "{{orden}}-{{slug}}"
+    extension: md
+    format: yaml-frontmatter
+    fields:
+      - { name: orden, label: Orden, widget: number, value_type: int }
+      - { name: cita, label: Cita bibliográfica, widget: text }
+      - { name: body, label: Notas, widget: markdown, required: false }
+
+  - name: categorias
+    label: Categorías culturales
+    folder: src/content/categorias
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: yaml-frontmatter
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: descripcion, label: Descripción, widget: text }
+      - { name: color, label: Color, widget: color, enableAlpha: false }
+      - { name: orden, label: Orden, widget: number, value_type: int }
+      - { name: body, label: Texto, widget: markdown, required: false }
