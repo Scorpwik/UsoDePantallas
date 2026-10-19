@@ -1,14 +1,20 @@
 ---
-titulo: Conclusiones
+titulo: Lo que observé
 orden: 6
 ---
 
-La pregunta de investigación se resuelve, en este recorte, de tres maneras.
+¿En qué momentos aparece el celular?
 
-Primero, los padres no usan el dispositivo de forma continua, sino puntual. Aparece cuando la escena pública se desordena —un llanto, una espera, un traslado— y se retira cuando el entorno vuelve a ser manejable. El teléfono es un mediador de crisis más que un compañero permanente de la mesa.
+Cuando el niño está solo, aburrido o esperando. También aparece mientras la mamá come.
 
-Segundo, la exposición no produce un único efecto psicológico o social. En algunos episodios la pantalla aísla al niño del grupo y apaga el juego. En otros, un adulto y un niño miran juntos, comentan y convierten el video en un objeto compartido. El mismo artefacto sostiene soledad y vínculo, según quién sostiene el aparato y si hay habla alrededor.
+¿Aísla o comparte?
 
-Tercero, los rituales de transición —entrar al patio, esperar el pedido, dejar el juego, salir del centro comercial— concentran la mayor frecuencia de uso. Ahí la pantalla no entretiene tanto como acelera un cambio de estado. Cruza con la teoría de la mediación parental y con la copresencia descrita por Turkle: se está junto, pero la atención se delega a un tercero luminoso.
+En la mayoría de las escenas aísla. El niño o la niña están en su pantalla y casi no hablan con quien tienen al lado. Solo en la familia hay algo compartido, pero la niña igual está con el celular.
 
-Los temas con mayor frecuencia en las notas son, en este orden: la entrega del teléfono para cortar un llanto, la espera del pedido, el uso de auriculares que cierran el entorno, y el video compartido como forma breve de cariño. El recorte es local y breve. No generaliza a toda la crianza quiteña. Describe un repertorio visible en estos espacios, en estas fechas, con esta posición de observador.
+¿Qué hacen los papás?
+
+Comen o hablan entre ellos, pero casi no hablan con el niño que tiene el celular. En el caso del niño solo, no vi a ningún adulto cerca.
+
+Conclusión general: en lo que observé, el celular funciona más como algo que calma un momento difícil que como algo que se usa todo el tiempo. Pero cuando aparece, el niño deja de hablar con quien tiene cerca.
+
+Límite: es una observación en un solo lugar y un solo día. No se puede decir que todos los papás de Quito hacen lo mismo.

@@ -7,9 +7,9 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, contexto, significados, lugares = [] } = entrada.data;
+const { titulo, contexto, lugares = [] } = entrada.data;
 const cita =
-  'En estas escenas, la pantalla no significa solo entretenimiento. Significa tregua, recompensa, prueba de que el adulto está gestionando la situación.';
+  'Mi observación está en lugares públicos. Hasta ahora solo observé en el patio de comidas del Quicentro Sur.';
 ---
 
 <section id="escena" class="seccion">
@@ -21,11 +21,10 @@ const cita =
         {contexto && <p class="prosa mt-8">{contexto}</p>}
       </div>
       <div class="space-y-8 pt-8" data-bloque>
-        {significados && <p class="cita-destacada">{cita}</p>}
+        <p class="cita-destacada">{cita}</p>
         <div class="prosa">
           <Content />
         </div>
-        {significados && <p class="prosa">{significados}</p>}
       </div>
     </div>
 

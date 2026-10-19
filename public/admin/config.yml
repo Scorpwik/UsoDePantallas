@@ -130,9 +130,8 @@ collections:
           label: Categoría
           widget: select
           options:
-            - { label: "El dispositivo como mediador de crisis", value: mediador-crisis }
-            - { label: "Aislamiento social vs. consumo compartido", value: aislamiento-consumo }
-            - { label: "Rituales de transición", value: rituales-transicion }
+            - { label: "El celular como calmante", value: mediador-crisis }
+            - { label: "Aislamiento o compartir", value: aislamiento-consumo }
       - { name: imagenPrincipal, label: Imagen principal, widget: image }
       - name: galeria
         label: Galería de imágenes

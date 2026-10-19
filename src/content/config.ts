@@ -2,11 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const categoriaId = z.enum([
-  'mediador-crisis',
-  'aislamiento-consumo',
-  'rituales-transicion',
-]);
+const categoriaId = z.enum(['mediador-crisis', 'aislamiento-consumo']);
 
 const textos = defineCollection({
   loader: glob({ base: './src/content/textos', pattern: '**/*.md' }),
