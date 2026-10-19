@@ -10,12 +10,12 @@ export function initSitio() {
   const mm = gsap.matchMedia();
 
   mm.add('(prefers-reduced-motion: reduce)', () => {
-    gsap.set('[data-revelar]', { autoAlpha: 1 });
-    gsap.set('[data-objetivo]', { autoAlpha: 1, y: 0 });
-    gsap.set('[data-cat-card]', { autoAlpha: 1, y: 0, rotationY: 0 });
+    gsap.set('[data-bloque]', { autoAlpha: 1, y: 0 });
+    gsap.set('[data-lugar]', { autoAlpha: 1, y: 0 });
+    gsap.set('[data-cat-card]', { autoAlpha: 1, y: 0, scale: 1 });
+    gsap.set('[data-mask-img]', { autoAlpha: 1, scale: 1 });
     initNavbar(null);
     initProgreso(null);
-    initCristal();
     initCategoriasClick(null);
     return () => undefined;
   });
@@ -24,20 +24,61 @@ export function initSitio() {
     const lenis = initSmoothScroll();
     requestAnimationFrame(() => ScrollTrigger.refresh());
     initCursor();
-    initParticulas();
-    initCristal();
-    initRevelados();
-    initObjetivos();
+    initHeroTitulo();
+    initBloques();
+    initLugares();
     initContadores();
-    initParallax();
-    initClipSecciones();
+    initMaskImagenes();
     initNavbar(lenis);
     initProgreso(lenis);
     initCategorias(lenis);
+    initAmbiente();
     return () => {
       lenis?.destroy();
     };
   });
+}
+
+function initAmbiente() {
+  const fotos = gsap.utils.toArray<HTMLElement>('[data-fondo-foto]');
+  if (fotos.length > 0) {
+    gsap.to(fotos, {
+      yPercent: (i) => (i % 2 === 0 ? 10 : -8),
+      xPercent: (i) => (i % 2 === 0 ? -3 : 4),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: document.documentElement,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.6,
+      },
+    });
+  }
+
+  gsap.to('[data-fondo-blob]', {
+    x: (i) => (i === 1 ? 64 : -48),
+    y: (i) => (i === 2 ? 36 : -56),
+    duration: (i) => 18 + i * 5,
+    yoyo: true,
+    repeat: -1,
+    ease: 'sine.inOut',
+    stagger: 1.6,
+  });
+
+  const orbita = document.querySelector('.hero-orbita');
+  if (orbita) {
+    gsap.to(orbita, {
+      yPercent: 16,
+      rotation: 10,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#inicio',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+      },
+    });
+  }
 }
 
 function initCursor() {
@@ -57,9 +98,9 @@ function initCursor() {
 
   const crece = (on: boolean) => {
     gsap.to(anillo, {
-      width: on ? 44 : 14,
-      height: on ? 44 : 14,
-      background: on ? 'rgb(215 0 30 / 0.18)' : 'rgb(215 0 30 / 0.22)',
+      width: on ? 36 : 12,
+      height: on ? 36 : 12,
+      background: on ? 'rgb(224 181 74 / 0.14)' : 'rgb(224 181 74 / 0.2)',
       duration: 0.25,
       ease: 'power2.out',
     });
@@ -71,159 +112,127 @@ function initCursor() {
   });
 }
 
-function initParticulas() {
-  const canvas = document.querySelector<HTMLCanvasElement>('#particulas-hero');
-  const hero = document.querySelector<HTMLElement>('#inicio');
-  if (!canvas || !hero) return;
+function initHeroTitulo() {
+  const titulo = document.querySelector('[data-hero-titulo]');
+  if (!titulo) return;
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  const puntos = Array.from({ length: 48 }, () => ({
-    x: Math.random(),
-    y: Math.random(),
-    r: 0.6 + Math.random() * 1.6,
-    v: 0.08 + Math.random() * 0.18,
-  }));
-
-  let visible = true;
-  const io = new IntersectionObserver(
-    ([entry]) => {
-      visible = entry.isIntersecting;
-    },
-    { threshold: 0.05 },
-  );
-  io.observe(hero);
-
-  const pintar = () => {
-    const { width, height } = canvas;
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(215, 0, 30, 0.55)';
-    for (const p of puntos) {
-      p.y -= p.v / 400;
-      if (p.y < 0) p.y = 1;
-      ctx.beginPath();
-      ctx.arc(p.x * width, p.y * height, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  };
-
-  const loop = () => {
-    if (visible) pintar();
-    requestAnimationFrame(loop);
-  };
-
-  const medir = () => {
-    canvas.width = hero.clientWidth;
-    canvas.height = hero.clientHeight;
-  };
-
-  medir();
-  window.addEventListener('resize', medir);
-  requestAnimationFrame(loop);
-}
-
-function initCristal() {
-  document.querySelectorAll<HTMLElement>('[data-glass]').forEach((panel) => {
-    panel.addEventListener('pointermove', (e) => {
-      const r = panel.getBoundingClientRect();
-      panel.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      panel.style.setProperty('--my', `${e.clientY - r.top}px`);
-    });
-  });
-}
-
-function initRevelados() {
-  ScrollTrigger.batch('[data-revelar]', {
-    start: 'top 88%',
-    once: true,
-    onEnter: (elementos) => {
-      elementos.forEach((el) => {
-        const split = SplitText.create(el, { type: 'words', aria: 'hidden' });
-        gsap.from(split.words, {
-          autoAlpha: 0,
-          y: 14,
-          duration: 0.5,
-          stagger: 0.022,
-          ease: 'power2.out',
-        });
+  SplitText.create(titulo, {
+    type: 'lines',
+    mask: 'lines',
+    autoSplit: true,
+    aria: 'hidden',
+    onSplit(self) {
+      return gsap.from(self.lines, {
+        yPercent: 110,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'power3.out',
       });
     },
   });
 }
 
-function initObjetivos() {
-  gsap.from('[data-objetivo]', {
-    autoAlpha: 0,
-    y: 48,
-    rotationX: 8,
-    duration: 0.7,
-    stagger: 0.16,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '#planteamiento', start: 'top 58%' },
+function revelarLote(
+  selector: string,
+  varsIn: gsap.TweenVars,
+  varsOut: gsap.TweenVars,
+  start = 'top 88%',
+) {
+  const elementos = gsap.utils
+    .toArray<HTMLElement>(selector)
+    .filter((el) => !el.closest('[data-cat-panel]'));
+  if (elementos.length === 0) return;
+
+  gsap.set(elementos, varsOut);
+
+  ScrollTrigger.batch(elementos, {
+    start,
+    interval: 0.08,
+    batchMax: 8,
+    onEnter: (lote) => gsap.to(lote, { ...varsIn, overwrite: true }),
+    onLeaveBack: (lote) => gsap.to(lote, { ...varsOut, overwrite: true }),
   });
+}
+
+function initBloques() {
+  revelarLote(
+    '[data-bloque]',
+    { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power2.out' },
+    { autoAlpha: 0, y: 16, duration: 0.32, stagger: 0.03, ease: 'power2.in' },
+  );
+}
+
+function initLugares() {
+  revelarLote(
+    '[data-lugar]',
+    { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out' },
+    { autoAlpha: 0, y: 16, duration: 0.32, stagger: 0.04, ease: 'power2.in' },
+    'top 82%',
+  );
 }
 
 function initContadores() {
   document.querySelectorAll<HTMLElement>('[data-contador]').forEach((el) => {
     const fin = Number(el.dataset.contador ?? '0');
+    const alCargar = el.hasAttribute('data-contador-carga');
     const obj = { n: 0 };
-    gsap.to(obj, {
-      n: fin,
-      duration: 1.4,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 84%' },
-      onUpdate: () => {
-        el.textContent = String(Math.round(obj.n)).padStart(2, '0');
+
+    const aplicar = () => {
+      el.textContent = String(Math.round(obj.n)).padStart(2, '0');
+    };
+
+    if (alCargar) {
+      gsap.to(obj, {
+        n: fin,
+        duration: 1.1,
+        ease: 'power2.out',
+        onUpdate: aplicar,
+      });
+      return;
+    }
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 84%',
+      onEnter: () => {
+        obj.n = 0;
+        gsap.to(obj, {
+          n: fin,
+          duration: 0.9,
+          ease: 'power2.out',
+          overwrite: true,
+          onUpdate: aplicar,
+        });
+      },
+      onLeaveBack: () => {
+        gsap.to(obj, {
+          n: 0,
+          duration: 0.35,
+          ease: 'power2.in',
+          overwrite: true,
+          onUpdate: aplicar,
+        });
       },
     });
   });
 }
 
-function initParallax() {
-  document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((img) => {
-    gsap.fromTo(
-      img,
-      { yPercent: -8 },
-      {
-        yPercent: 8,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: img.parentElement,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.6,
-        },
-      },
-    );
-  });
-}
-
-function initClipSecciones() {
-  document.querySelectorAll<HTMLElement>('[data-clip]').forEach((seccion) => {
-    gsap.fromTo(
-      seccion,
-      { clipPath: 'inset(6% 4% 6% 4% round 28px)' },
-      {
-        clipPath: 'inset(0% 0% 0% 0% round 0px)',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: seccion,
-          start: 'top 88%',
-          end: 'top 42%',
-          scrub: 0.5,
-        },
-      },
-    );
-  });
+function initMaskImagenes() {
+  revelarLote(
+    '[data-mask-img]',
+    { autoAlpha: 1, scale: 1, duration: 0.7, ease: 'power3.out' },
+    { autoAlpha: 0, scale: 1.05, duration: 0.35, ease: 'power2.in' },
+    'top 84%',
+  );
 }
 
 function initNavbar(lenis: Lenis | null) {
   const nav = document.querySelector<HTMLElement>('[data-nav]');
   const pista = nav?.querySelector<HTMLElement>('.navbar-links');
   const indicador = nav?.querySelector<HTMLElement>('[data-nav-indicador]');
-  const links = gsap.utils.toArray<HTMLAnchorElement>('[data-nav] .navbar-links a[href^="#"]');
-  if (!nav || !pista || !indicador || links.length === 0) return;
+  if (!nav || !pista || !indicador) return;
+
+  const links = gsap.utils.toArray<HTMLAnchorElement>('[data-nav] .navbar-links a');
 
   const mover = (link: HTMLElement) => {
     const pistaBox = pista.getBoundingClientRect();
@@ -231,37 +240,70 @@ function initNavbar(lenis: Lenis | null) {
     gsap.to(indicador, {
       x: box.left - pistaBox.left,
       width: box.width,
+      autoAlpha: 1,
       duration: 0.35,
       ease: 'power3.out',
+      overwrite: 'auto',
     });
   };
 
-  requestAnimationFrame(() => mover(links[0]));
+  gsap.set(indicador, { width: 0, autoAlpha: 0 });
+
+  const paginaActual = nav.querySelector<HTMLAnchorElement>('a[aria-current="page"]');
+  if (paginaActual) {
+    requestAnimationFrame(() => mover(paginaActual));
+  }
 
   links.forEach((link) => {
-    const id = link.getAttribute('href');
-    if (!id) return;
-    const seccion = document.querySelector(id);
-    if (!seccion) return;
+    const href = link.getAttribute('href') ?? '';
+    const hash = href.includes('#') ? `#${href.split('#')[1]}` : '';
+    const esHashLocal = href.startsWith('#');
 
+    if (hash && esHashLocal) {
+      const seccion = document.querySelector(hash);
+      if (seccion) {
+        ScrollTrigger.create({
+          trigger: seccion,
+          start: 'top 45%',
+          end: 'bottom 45%',
+          onToggle: (self) => {
+            if (!self.isActive) return;
+            links.forEach((l) => {
+              if (l.getAttribute('aria-current') !== 'page') l.removeAttribute('aria-current');
+            });
+            link.setAttribute('aria-current', 'location');
+            mover(link);
+          },
+        });
+      }
+    }
+
+    if (esHashLocal) {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        irA(href, lenis, -72);
+        history.replaceState(null, '', href);
+      });
+    }
+  });
+
+  const diarioLink = links.find((l) => (l.getAttribute('href') ?? '').endsWith('/diario'));
+  const diarioSeccion = document.querySelector('#diario');
+  if (diarioLink && diarioSeccion) {
     ScrollTrigger.create({
-      trigger: seccion,
+      trigger: diarioSeccion,
       start: 'top 45%',
       end: 'bottom 45%',
       onToggle: (self) => {
         if (!self.isActive) return;
-        links.forEach((l) => l.removeAttribute('aria-current'));
-        link.setAttribute('aria-current', 'location');
-        mover(link);
+        links.forEach((l) => {
+          if (l.getAttribute('aria-current') !== 'page') l.removeAttribute('aria-current');
+        });
+        diarioLink.setAttribute('aria-current', 'location');
+        mover(diarioLink);
       },
     });
-
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      irA(id, lenis, -12);
-      history.replaceState(null, '', id);
-    });
-  });
+  }
 }
 
 function initProgreso(lenis: Lenis | null) {
@@ -282,148 +324,134 @@ function initProgreso(lenis: Lenis | null) {
 
 function panelesCategoria() {
   return {
+    seccion: document.querySelector<HTMLElement>('#categorias'),
     cards: gsap.utils.toArray<HTMLElement>('[data-cat-card]'),
     panels: gsap.utils.toArray<HTMLElement>('[data-cat-panel]'),
     cerrar: document.querySelectorAll<HTMLButtonElement>('[data-cerrar-categoria]'),
   };
 }
 
+let categoriaAbierta: number | null = null;
+let refrescoPendiente = 0;
+
+function refrescarScroll() {
+  window.clearTimeout(refrescoPendiente);
+  refrescoPendiente = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+}
+
 function abrirPanel(i: number) {
-  const { cards, panels } = panelesCategoria();
+  const { seccion, cards, panels } = panelesCategoria();
+  if (categoriaAbierta === i) {
+    cerrarPaneles();
+    return;
+  }
+  categoriaAbierta = i;
+  seccion?.classList.add('es-panel-abierto');
+
   panels.forEach((panel, j) => {
     const abierto = j === i;
     panel.classList.toggle('es-abierto', abierto);
     panel.setAttribute('aria-hidden', abierto ? 'false' : 'true');
-    gsap.to(panel, {
-      autoAlpha: abierto ? 1 : 0,
-      y: abierto ? 0 : 24,
-      duration: 0.55,
-      ease: 'power3.inOut',
-    });
   });
-  gsap.to(cards, {
-    autoAlpha: 0.14,
-    scale: 0.96,
-    duration: 0.45,
-    ease: 'power3.out',
+
+  cards.forEach((card, j) => {
+    card.setAttribute('aria-expanded', j === i ? 'true' : 'false');
   });
-  const entradas = panels[i]?.querySelectorAll('.cat-entrada');
-  if (entradas?.length) {
+
+  const panel = panels[i];
+  if (panel) {
     gsap.fromTo(
-      entradas,
-      { autoAlpha: 0, y: 28 },
-      { autoAlpha: 1, y: 0, stagger: 0.1, duration: 0.5, delay: 0.12, ease: 'power2.out' },
+      panel,
+      { autoAlpha: 0, y: 16 },
+      { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out', overwrite: true },
     );
+
+    const entradas = panel.querySelectorAll('.cat-entrada');
+    if (entradas.length) {
+      gsap.fromTo(
+        entradas,
+        { autoAlpha: 0, y: 12 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          stagger: 0.06,
+          duration: 0.4,
+          delay: 0.06,
+          ease: 'power2.out',
+          overwrite: true,
+        },
+      );
+    }
   }
+
+  refrescarScroll();
+  panels[i]?.querySelector<HTMLButtonElement>('[data-cerrar-categoria]')?.focus({
+    preventScroll: true,
+  });
 }
 
 function cerrarPaneles() {
-  const { cards, panels } = panelesCategoria();
+  const { seccion, cards, panels } = panelesCategoria();
+  categoriaAbierta = null;
+  seccion?.classList.remove('es-panel-abierto');
+
   panels.forEach((panel) => {
     panel.classList.remove('es-abierto');
     panel.setAttribute('aria-hidden', 'true');
+    gsap.set(panel, { clearProps: 'opacity,visibility,transform' });
   });
-  gsap.to(panels, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' });
-  gsap.to(cards, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power3.out' });
+  cards.forEach((card) => card.setAttribute('aria-expanded', 'false'));
+
+  gsap.fromTo(
+    cards,
+    { autoAlpha: 0, y: 10 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      stagger: 0.05,
+      duration: 0.35,
+      ease: 'power3.out',
+      overwrite: true,
+    },
+  );
+
+  refrescarScroll();
 }
 
-function initCategoriasClick(lenis: Lenis | null) {
+function initCategoriasClick(_lenis: Lenis | null) {
   const { cards, cerrar } = panelesCategoria();
+  if (cards.length === 0) return;
+
   cards.forEach((card, i) => {
     card.addEventListener('click', () => abrirPanel(i));
   });
+
   cerrar.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       cerrarPaneles();
-      irA('#categorias', lenis, 0);
     });
   });
+
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') cerrarPaneles();
+    if (e.key === 'Escape' && categoriaAbierta !== null) cerrarPaneles();
   });
 }
 
 function initCategorias(lenis: Lenis | null) {
   const seccion = document.querySelector<HTMLElement>('#categorias');
-  const { cards, panels, cerrar } = panelesCategoria();
-  if (!seccion || cards.length === 0) return;
+  const { cards } = panelesCategoria();
+  if (!seccion || cards.length === 0) {
+    initCategoriasClick(lenis);
+    return;
+  }
 
-  gsap.set(panels, { autoAlpha: 0, y: 32 });
-  gsap.set(cards, { autoAlpha: 0, y: 70, rotationY: 16, rotation: 3 });
+  revelarLote(
+    '[data-cat-card]',
+    { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.1, ease: 'power3.out' },
+    { autoAlpha: 0, y: 20, scale: 0.97, duration: 0.32, stagger: 0.04, ease: 'power2.in' },
+    'top 78%',
+  );
 
-  gsap.to(cards, {
-    autoAlpha: 1,
-    y: 0,
-    rotationY: 0,
-    rotation: 0,
-    stagger: 0.18,
-    duration: 0.9,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: seccion, start: 'top 72%' },
-  });
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: seccion,
-      start: 'top top',
-      end: `+=${cards.length * 120}%`,
-      pin: true,
-      scrub: 0.75,
-      anticipatePin: 1,
-    },
-  });
-
-  cards.forEach((_card, i) => {
-    tl.addLabel(`cat-${i}`);
-    tl.to(cards, { autoAlpha: 0.12, scale: 0.94, duration: 0.35 }, `cat-${i}`);
-    tl.to(cards[i], { autoAlpha: 1, scale: 1.02, duration: 0.35 }, `cat-${i}`);
-    tl.to(panels[i], { autoAlpha: 1, y: 0, duration: 0.4 }, `cat-${i}+=0.05`);
-    const entradas = panels[i]?.querySelectorAll('.cat-entrada');
-    if (entradas?.length) {
-      tl.fromTo(
-        entradas,
-        { autoAlpha: 0, y: 24 },
-        { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.35 },
-        `cat-${i}+=0.12`,
-      );
-    }
-    tl.add(() => {
-      panels.forEach((panel, j) => {
-        const abierto = j === i;
-        panel.classList.toggle('es-abierto', abierto);
-        panel.setAttribute('aria-hidden', abierto ? 'false' : 'true');
-      });
-    }, `cat-${i}`);
-
-    if (i < cards.length - 1) {
-      tl.to(panels[i], { autoAlpha: 0, duration: 0.3 });
-      tl.to(cards, { autoAlpha: 1, scale: 1, duration: 0.25 }, '<');
-    }
-  });
-
-  const irAEtiqueta = (i: number) => {
-    const st = tl.scrollTrigger;
-    if (!st) return;
-    const tiempo = Math.min(tl.duration() * 0.98, (tl.labels[`cat-${i}`] ?? 0) + 0.45);
-    const progreso = tiempo / tl.duration();
-    irA(st.start + (st.end - st.start) * progreso, lenis);
-  };
-
-  cards.forEach((card, i) => {
-    card.addEventListener('click', () => irAEtiqueta(i));
-  });
-
-  cerrar.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const st = tl.scrollTrigger;
-      if (st) irA(st.start, lenis);
-      else cerrarPaneles();
-    });
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    const st = tl.scrollTrigger;
-    if (st) irA(st.start, lenis);
-  });
+  initCategoriasClick(lenis);
 }

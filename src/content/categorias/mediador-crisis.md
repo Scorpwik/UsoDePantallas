@@ -1,7 +1,7 @@
 ---
 titulo: El dispositivo como mediador de crisis
 descripcion: El teléfono entra cuando la escena pública se rompe. Corta el llanto, sostiene la espera y devuelve al adulto una fachada de control. No es el uso continuo, sino el gesto puntual que reordena la mesa.
-color: "#D7001E"
+color: "#0F7C80"
 orden: 1
 ---
 

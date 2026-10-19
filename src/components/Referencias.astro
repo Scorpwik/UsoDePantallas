@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  referencias: CollectionEntry<'referencias'>[];
+}
+
+const { referencias } = Astro.props;
+---
+
+<section id="referencias" class="seccion">
+  <div class="envolvente">
+    <span class="num-seccion">Referencias</span>
+    <h2 class="titulo-seccion">Referencias</h2>
+    <ol class="lista-refs mt-10">
+      {
+        referencias.map((ref, i) => (
+          <li data-bloque>
+            <span class="font-display text-lg font-bold text-enfasis">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <p>{ref.data.cita}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

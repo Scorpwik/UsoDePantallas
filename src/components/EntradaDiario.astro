@@ -6,9 +6,11 @@ import PanelCristal from './PanelCristal.astro';
 interface Props {
   entrada: CollectionEntry<'diario'>;
   compacta?: boolean;
+  eager?: boolean;
+  etiquetas?: Record<string, string>;
 }
 
-const { entrada, compacta = false } = Astro.props;
+const { entrada, compacta = false, eager = false, etiquetas = {} } = Astro.props;
 const d = entrada.data;
 const fecha = d.fecha.toLocaleDateString('es-EC', {
   day: 'numeric',
@@ -16,79 +18,81 @@ const fecha = d.fecha.toLocaleDateString('es-EC', {
   year: 'numeric',
   timeZone: 'UTC',
 });
+
+const nombres = d.categorias.map((id) => etiquetas[id] ?? id);
 ---
 
-<article class:list={['cat-entrada', compacta && 'h-full']}>
-  <PanelCristal class="h-full overflow-hidden">
-    <div class:list={[compacta ? 'grid grid-cols-[280px_1fr]' : 'grid grid-cols-[1.05fr_1fr]', 'gap-0']}>
-      <div class="relative min-h-[320px] overflow-hidden p-4">
-        <div class="h-full min-h-[320px] overflow-hidden rounded-[22px]" data-parallax>
+<article class:list={['cat-entrada', compacta && 'h-full']} id={compacta ? undefined : `entrada-${entrada.id}`}>
+  {
+    compacta ? (
+      <div class="tarjeta h-full overflow-hidden !p-0">
+        <div class="grid grid-cols-[280px_1fr] gap-0">
+          <div class="diario-foto diario-foto--compacta rounded-none">
+            <ImagenCampo
+              src={d.imagenPrincipal}
+              alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
+              class="img-campo"
+              eager={eager}
+            />
+          </div>
+          <div class="p-7">
+            <p class="text-sm text-texto">
+              {fecha} · {d.hora} · {d.espacio}
+            </p>
+            <h3 class="subtitulo mt-3">{d.titulo}</h3>
+            <p class="mt-4 text-arena">{d.descripcion}</p>
+            <p class="mt-6 text-xs text-arena">{d.notaPrivacidad}</p>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <PanelCristal class="overflow-hidden">
+        <p class="text-sm font-semibold text-enfasis">
+          {fecha} · {d.hora}
+        </p>
+        <p class="mt-1 text-sm text-arena">{d.espacio}</p>
+        <h3 class="mt-4 font-display text-[28px] font-bold tracking-tight">{d.titulo}</h3>
+
+        <figure class="diario-foto mt-6" data-mask-img data-cursor-img>
           <ImagenCampo
             src={d.imagenPrincipal}
             alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
-            class="img-parallax min-h-[320px]"
+            class="img-campo"
+            eager={eager}
+            width={1600}
+            height={900}
           />
+        </figure>
+
+        <div class="mt-8 grid grid-cols-2 gap-12">
+          <div>
+            <h4 class="font-semibold text-texto">Descripción de la escena</h4>
+            <p class="mt-2 text-arena">{d.descripcion}</p>
+            <h4 class="mt-6 font-semibold text-texto">Impresiones sensoriales</h4>
+            <p class="mt-2 text-arena">{d.impresiones}</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-texto">Impresiones y reflexiones como investigador</h4>
+            <p class="mt-2 text-arena">{d.reflexion}</p>
+            {
+              d.frases.length > 0 && (
+                <blockquote class="cita-destacada mt-6">“{d.frases[0]}”</blockquote>
+              )
+            }
+          </div>
         </div>
-      </div>
-      <div class="p-8">
-        <p class="text-sm text-porsche">
-          {fecha} · {d.hora} · {d.espacio}
-        </p>
-        <h3 class="mt-3 font-display text-3xl font-bold tracking-tight">{d.titulo}</h3>
-        <p class="mt-4 text-mute">{d.descripcion}</p>
-        {
-          !compacta && (
-            <>
-              <h4 class="mt-6 font-semibold text-paper">Impresiones sensoriales</h4>
-              <p class="mt-2 text-mute">{d.impresiones}</p>
-              <h4 class="mt-6 font-semibold text-paper">Reflexión</h4>
-              <p class="mt-2 text-mute">{d.reflexion}</p>
-            </>
-          )
-        }
-        {
-          d.frases.length > 0 && (
-            <ul class="mt-5 space-y-2">
-              {d.frases.map((frase) => (
-                <li class="text-paper italic">“{frase}”</li>
-              ))}
-            </ul>
-          )
-        }
-        <p class="mt-6 text-xs text-mute">{d.notaPrivacidad}</p>
-        {
-          d.desenfoqueAplicado && (
-            <p class="mt-2 text-xs text-porsche">Desenfoque aplicado</p>
-          )
-        }
-      </div>
-    </div>
-    {
-      !compacta && d.galeria.length > 0 && (
-        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
-          {d.galeria.map((src) => (
-            <ImagenCampo
-              src={src}
-              alt={`Imagen adicional desenfocada de ${d.espacio}`}
-              width={1200}
-              height={800}
-              class="max-h-56"
-            />
-          ))}
-        </div>
-      )
-    }
-    {
-      !compacta && d.preguntasPendientes.length > 0 && (
-        <div class="px-8 pb-8">
-          <h4 class="font-semibold text-paper">Preguntas pendientes</h4>
-          <ul class="mt-2 list-disc space-y-1 pl-5 text-mute">
-            {d.preguntasPendientes.map((p) => (
-              <li>{p}</li>
+
+        <div class="mt-8">
+          <h4 class="font-semibold text-texto">Categorías identificadas</h4>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {nombres.map((nombre) => (
+              <li class="chip">{nombre}</li>
             ))}
           </ul>
         </div>
-      )
-    }
-  </PanelCristal>
+
+        <p class="mt-8 text-xs text-arena">{d.notaPrivacidad}</p>
+      </PanelCristal>
+    )
+  }
 </article>

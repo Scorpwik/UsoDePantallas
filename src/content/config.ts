@@ -45,9 +45,13 @@ const secciones = defineCollection({
     etica: z.string().optional(),
     contexto: z.string().optional(),
     significados: z.string().optional(),
+    lugares: z
+      .array(z.object({ nombre: z.string(), descripcion: z.string() }))
+      .optional(),
     salidasCampo: z
       .array(z.object({ fecha: z.string(), lugar: z.string(), nota: z.string() }))
       .optional(),
+    comoObservar: z.string().optional(),
     retos: z.array(z.string()).optional(),
     sorpresas: z.array(z.string()).optional(),
     diferente: z.string().optional(),

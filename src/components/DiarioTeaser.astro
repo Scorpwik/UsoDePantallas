@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entradas: CollectionEntry<'diario'>[];
+}
+
+const { entradas } = Astro.props;
+
+const fechaCorta = (fecha: Date) =>
+  fecha.toLocaleDateString('es-EC', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+---
+
+<section id="diario" class="seccion">
+  <div class="envolvente">
+    <span class="num-seccion">06 · Diario de campo</span>
+    <h2 class="titulo-seccion">Diario de campo</h2>
+    <p class="prosa mt-6" data-bloque>
+      Las entradas completas —fecha, hora, espacio, escena, impresiones y categorías— están en una
+      página aparte, alimentada por el CMS.
+    </p>
+    <div class="mt-10 grid grid-cols-2 gap-4">
+      {
+        entradas.map((entrada) => (
+          <a
+            class="tarjeta block no-underline text-inherit"
+            href={`/diario#entrada-${entrada.id}`}
+            data-bloque
+          >
+            <p class="text-sm text-enfasis">
+              {fechaCorta(entrada.data.fecha)} · {entrada.data.hora}
+            </p>
+            <h3 class="subtitulo mt-3">{entrada.data.titulo}</h3>
+            <p class="mt-2 text-sm text-arena">{entrada.data.espacio}</p>
+            <p class="mt-4 text-arena">
+              {entrada.data.descripcion.length > 180
+                ? `${entrada.data.descripcion.slice(0, 180).trim()}…`
+                : entrada.data.descripcion}
+            </p>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8">
+      <a class="btn-pildora" href="/diario">Abrir el diario</a>
+    </p>
+  </div>
+</section>

@@ -8,33 +8,52 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, retos = [], sorpresas = [], diferente } = entrada.data;
+const { titulo, comoObservar, retos = [], sorpresas = [], diferente } = entrada.data;
+const cita =
+  'En un lugar diseñado para no detenerse, la investigación consiste precisamente en detenerse y en aceptar que una parte de lo que ocurre no se puede mostrar con el rostro de quien lo vive.';
 ---
 
-<section id="reflexion" class="seccion" data-clip>
+<section id="reflexion" class="seccion">
   <div class="envolvente">
-    <p class="kicker">08</p>
+    <span class="num-seccion">09 · {titulo}</span>
     <h2 class="titulo-seccion">{titulo}</h2>
-    <div class="mt-12 grid grid-cols-3 gap-5">
-      <PanelCristal class="p-8">
-        <h3 class="font-display text-2xl font-bold">Retos</h3>
-        <ul class="mt-5 space-y-4 text-mute">
-          {retos.map((reto) => <li>{reto}</li>)}
+
+    <blockquote class="bloque-cierre mt-10" data-bloque>
+      <p>{cita}</p>
+    </blockquote>
+
+    <div class="mt-10 grid grid-cols-2 gap-4">
+      <PanelCristal data-bloque>
+        <h3 class="subtitulo">Cómo fue observar</h3>
+        {comoObservar && <p class="mt-4 text-arena">{comoObservar}</p>}
+        <div class="prosa mt-4">
+          <Content />
+        </div>
+      </PanelCristal>
+      <PanelCristal data-bloque>
+        <h3 class="subtitulo">Retos</h3>
+        <ul class="mt-4 space-y-4 text-arena">
+          {retos.map((reto) => (
+            <li>{reto}</li>
+          ))}
         </ul>
       </PanelCristal>
-      <PanelCristal class="p-8">
-        <h3 class="font-display text-2xl font-bold">Sorpresas</h3>
-        <ul class="mt-5 space-y-4 text-mute">
-          {sorpresas.map((item) => <li>{item}</li>)}
+      <PanelCristal data-bloque>
+        <h3 class="subtitulo">Lo que me sorprendió</h3>
+        <ul class="mt-4 space-y-4 text-arena">
+          {sorpresas.map((item) => (
+            <li>{item}</li>
+          ))}
         </ul>
       </PanelCristal>
-      <PanelCristal class="p-8">
-        <h3 class="font-display text-2xl font-bold">Lo que haría diferente</h3>
-        <p class="mt-5 text-mute">{diferente}</p>
-      </PanelCristal>
-    </div>
-    <div class="prosa mt-12">
-      <Content />
+      {
+        diferente && (
+          <PanelCristal data-bloque>
+            <h3 class="subtitulo">Lo que haría diferente</h3>
+            <p class="mt-4 text-arena">{diferente}</p>
+          </PanelCristal>
+        )
+      }
     </div>
   </div>
 </section>

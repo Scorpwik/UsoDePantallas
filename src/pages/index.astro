@@ -4,14 +4,17 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import Planteamiento from '../components/Planteamiento.astro';
-import MarcoTeorico from '../components/MarcoTeorico.astro';
 import Metodologia from '../components/Metodologia.astro';
 import EscenaCultural from '../components/EscenaCultural.astro';
-import DiarioCampo from '../components/DiarioCampo.astro';
+import Reflexividad from '../components/Reflexividad.astro';
+import DiarioTeaser from '../components/DiarioTeaser.astro';
 import Categorias from '../components/Categorias.astro';
 import Conclusiones from '../components/Conclusiones.astro';
 import Reflexion from '../components/Reflexion.astro';
+import Referencias from '../components/Referencias.astro';
 import Footer from '../components/Footer.astro';
+// Marco teórico desactivado en la página; sigue editable en /admin (sección marco-teorico).
+// import MarcoTeorico from '../components/MarcoTeorico.astro';
 
 const textos = await getEntry('textos', 'general');
 if (!textos) throw new Error('Falta src/content/textos/general.md');
@@ -20,13 +23,20 @@ const secciones = await getCollection('secciones');
 const porId = Object.fromEntries(secciones.map((s) => [s.id, s]));
 
 const planteamiento = porId['planteamiento'];
-const marco = porId['marco-teorico'];
 const metodologia = porId['metodologia'];
 const escena = porId['escena'];
+const reflexividad = porId['reflexividad'];
 const conclusiones = porId['conclusiones'];
 const reflexion = porId['reflexion'];
 
-if (!planteamiento || !marco || !metodologia || !escena || !conclusiones || !reflexion) {
+if (
+  !planteamiento ||
+  !metodologia ||
+  !escena ||
+  !reflexividad ||
+  !conclusiones ||
+  !reflexion
+) {
   throw new Error('Faltan archivos en src/content/secciones/');
 }
 
@@ -43,8 +53,13 @@ const categorias = (await getCollection('categorias')).sort(
 const t = textos.data;
 ---
 
-<Layout title={`${t.titulo} — ${t.autor}`} description={t.subtitulo} autor={t.autor}>
-  <Navbar />
+<Layout
+  title={`${t.titulo} — ${t.autor}`}
+  description={t.subtitulo}
+  autor={t.autor}
+  fondos={diario.map((entrada) => entrada.data.imagenPrincipal)}
+>
+  <Navbar actual="inicio" />
   <main id="contenido">
     <Hero
       titulo={t.titulo}
@@ -59,13 +74,19 @@ const t = textos.data;
       entradasDiario={t.entradasDiario}
     />
     <Planteamiento entrada={planteamiento} />
-    <MarcoTeorico entrada={marco} referencias={referencias} />
     <Metodologia entrada={metodologia} />
     <EscenaCultural entrada={escena} />
-    <DiarioCampo entradas={diario} />
+    <Reflexividad entrada={reflexividad} />
+    <DiarioTeaser entradas={diario} />
     <Categorias categorias={categorias} diario={diario} />
-    <Conclusiones entrada={conclusiones} />
+    <Conclusiones
+      entrada={conclusiones}
+      objetivos={planteamiento.data.objetivosEspecificos ?? []}
+      categorias={categorias}
+      diario={diario}
+    />
     <Reflexion entrada={reflexion} />
+    <Referencias referencias={referencias} />
   </main>
   <Footer autor={t.autor} docente={t.docente} materia={t.materia} />
 </Layout>

@@ -1,0 +1,46 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import PanelCristal from './PanelCristal.astro';
+
+interface Props {
+  entrada: CollectionEntry<'secciones'>;
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+const { titulo, posicion, sesgo } = entrada.data;
+---
+
+<section id="reflexividad" class="seccion">
+  <div class="envolvente">
+    <span class="num-seccion">05 · {titulo}</span>
+    <h2 class="titulo-seccion">{titulo}</h2>
+    <p class="prosa mt-6" data-bloque>
+      Esta sección declara desde dónde observo y cómo esa posición pudo filtrar lo que registré y lo
+      que después interpreté.
+    </p>
+
+    <div class="mt-10 grid grid-cols-2 gap-4">
+      {
+        posicion && (
+          <PanelCristal data-bloque>
+            <h3 class="subtitulo">Posición como investigador</h3>
+            <p class="mt-4 text-arena">{posicion}</p>
+          </PanelCristal>
+        )
+      }
+      {
+        sesgo && (
+          <PanelCristal data-bloque>
+            <h3 class="subtitulo">Cómo pudo influir</h3>
+            <p class="mt-4 text-arena">{sesgo}</p>
+          </PanelCristal>
+        )
+      }
+    </div>
+
+    <div class="prosa mt-10" data-bloque>
+      <Content />
+    </div>
+  </div>
+</section>

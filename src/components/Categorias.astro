@@ -9,6 +9,8 @@ interface Props {
 
 const { categorias, diario } = Astro.props;
 
+const etiquetas = Object.fromEntries(categorias.map((cat) => [cat.id, cat.data.titulo]));
+
 const grupos = categorias.map((cat) => ({
   ...cat,
   entradas: diario.filter((entrada) =>
@@ -18,67 +20,76 @@ const grupos = categorias.map((cat) => ({
 ---
 
 <section id="categorias" class="seccion categorias-seccion">
-  <div class="envolvente categorias-pin">
-    <header class="relative z-10">
-      <p class="kicker">06</p>
+  <div class="envolvente">
+    <header data-bloque>
+      <span class="num-seccion">07 · Categorías culturales</span>
       <h2 class="titulo-seccion">Categorías culturales</h2>
       <p class="prosa mt-6">
-        Tres lecturas del material. Al seguir el scroll, la sección se fija y cada tarjeta se abre
-        como un panel de cristal. Cerrar vuelve a la vista de tarjetas.
+        Tres lecturas del material. Cada tarjeta se abre y muestra las entradas del diario asociadas.
       </p>
     </header>
 
-    <div class="categorias-deck relative z-[1]">
+    <div class="categorias-stage mt-10">
+      <div class="categorias-deck" data-cat-deck>
+        {
+          grupos.map((cat, i) => (
+            <button
+              type="button"
+              class="cat-card tarjeta"
+              data-cat-card
+              data-cursor-grow
+              data-cat-id={cat.id}
+              style={`--cat-color: ${cat.data.color}`}
+              aria-controls={`panel-${cat.id}`}
+              aria-expanded="false"
+            >
+              <span class="cat-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="subtitulo mt-6">{cat.data.titulo}</h3>
+              <p class="mt-4 text-left text-arena">{cat.data.descripcion}</p>
+            </button>
+          ))
+        }
+      </div>
+
       {
-        grupos.map((cat, i) => (
-          <button
-            type="button"
-            class="cat-card panel-cristal"
-            data-cat-card
-            data-glass
-            data-cursor-grow
+        grupos.map((cat) => (
+          <article
+            id={`panel-${cat.id}`}
+            class="cat-panel"
+            data-cat-panel
             data-cat-id={cat.id}
-            style={`--cat-color: ${cat.data.color}`}
-            aria-controls={`panel-${cat.id}`}
+            aria-hidden="true"
+            role="dialog"
+            aria-label={cat.data.titulo}
           >
-            <span class="cat-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mt-8 font-display text-[28px] font-bold leading-tight tracking-tight">{cat.data.titulo}</h3>
-            <p class="mt-4 text-left text-[16px] text-mute">{cat.data.descripcion}</p>
-          </button>
+            <div class="flex shrink-0 items-start justify-between gap-8">
+              <div>
+                <p class="text-sm font-semibold" style={`color: ${cat.data.color}`}>
+                  {cat.data.titulo}
+                </p>
+                <p class="mt-3 max-w-[680px] text-arena">{cat.data.descripcion}</p>
+              </div>
+              <button
+                type="button"
+                class="btn-pildora btn-pildora--ghost shrink-0"
+                data-cerrar-categoria
+                aria-label={`Cerrar ${cat.data.titulo}`}
+              >
+                Cerrar
+              </button>
+            </div>
+            <div class="cat-panel-entradas">
+              {cat.entradas.length > 0 ? (
+                cat.entradas.map((entrada) => (
+                  <EntradaDiario entrada={entrada} compacta etiquetas={etiquetas} />
+                ))
+              ) : (
+                <p class="text-arena">Aún no hay entradas asociadas a esta categoría.</p>
+              )}
+            </div>
+          </article>
         ))
       }
     </div>
-
-    {
-      grupos.map((cat) => (
-        <article
-          id={`panel-${cat.id}`}
-          class="cat-panel panel-cristal"
-          data-cat-panel
-          data-glass
-          data-cat-id={cat.id}
-          aria-hidden="true"
-        >
-          <div class="relative z-[1] flex items-start justify-between gap-8">
-            <div>
-              <p class="text-sm font-semibold" style={`color: ${cat.data.color}`}>
-                {cat.data.titulo}
-              </p>
-              <p class="mt-3 max-w-3xl text-mute">{cat.data.descripcion}</p>
-            </div>
-            <button type="button" class="btn-pildora btn-pildora--ghost" data-cerrar-categoria aria-label={`Cerrar ${cat.data.titulo}`}>
-              Cerrar
-            </button>
-          </div>
-          <div class="relative z-[1] mt-8 grid max-h-[70vh] grid-cols-1 gap-5 overflow-auto pr-2">
-            {cat.entradas.length > 0 ? (
-              cat.entradas.map((entrada) => <EntradaDiario entrada={entrada} compacta />)
-            ) : (
-              <p class="text-mute">Aún no hay entradas asociadas a esta categoría.</p>
-            )}
-          </div>
-        </article>
-      ))
-    }
   </div>
 </section>

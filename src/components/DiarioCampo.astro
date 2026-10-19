@@ -4,22 +4,33 @@ import EntradaDiario from './EntradaDiario.astro';
 
 interface Props {
   entradas: CollectionEntry<'diario'>[];
+  etiquetas: Record<string, string>;
 }
 
-const { entradas } = Astro.props;
+const { entradas, etiquetas } = Astro.props;
 ---
 
-<section id="diario" class="seccion" data-clip>
+<section class="seccion pt-[120px]" aria-labelledby="diario-titulo">
   <div class="envolvente">
-    <p class="kicker">05</p>
-    <h2 class="titulo-seccion">Diario de campo</h2>
-    <p class="prosa mt-6" data-revelar>
-      Cada entrada agrupa fecha, hora, espacio, descripción, impresiones, reflexiones, frases oídas,
-      material visual y preguntas que quedaron abiertas. Las nuevas notas publicadas en el panel de
-      edición aparecen aquí sin cambiar el código.
+    <span class="num-seccion">Diario de campo</span>
+    <h1 id="diario-titulo" class="titulo-seccion">Diario de campo</h1>
+    <p class="prosa mt-6" data-bloque>
+      Cada entrada registra la escena, lo que se sintió en el lugar y lo que interpreté después. Las
+      fotos están desenfocadas a propósito.
     </p>
     <div class="mt-12 space-y-10">
-      {entradas.map((entrada) => <EntradaDiario entrada={entrada} />)}
+      {
+        entradas.map((entrada, i) => (
+          <EntradaDiario
+            entrada={entrada}
+            eager={i === 0}
+            etiquetas={etiquetas}
+          />
+        ))
+      }
     </div>
+    <p class="mt-10">
+      <a class="btn-pildora btn-pildora--ghost" href="/#diario">Volver al informe</a>
+    </p>
   </div>
 </section>

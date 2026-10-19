@@ -1,7 +1,7 @@
 ---
 titulo: Rituales de transición
 descripcion: Entrar, esperar, dejar el juego, recoger las chaquetas. En esos umbrales la pantalla acelera el cambio de estado. No entretiene tanto como empuja al siguiente paso del recorrido.
-color: "#A8001A"
+color: "#C6AC8F"
 orden: 3
 ---
 

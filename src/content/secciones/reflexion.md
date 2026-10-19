@@ -1,6 +1,7 @@
 ---
 titulo: Reflexión sobre el proceso
-orden: 6
+orden: 7
+comoObservar: "Observar fue quedarse más tiempo del que el lugar espera. En un patio o un parque diseñados para circular, detenerse ya es un gesto extraño. Aprendí a mirar la mesa completa —manos, bandeja, distancia entre cuerpos— y no solo el brillo de la pantalla. Las primeras horas fueron de prisa; las últimas, de espera hasta que el dispositivo aparecía o, igual de elocuente, no aparecía."
 retos:
   - Distinguir observación de juicio. Las primeras notas sonaban a veredicto; hubo que reescribirlas como descripción de gestos y tiempos.
   - Fotografiar sin capturar rostros. El encuadre ético obliga a perder nitidez y, con ella, parte de la evidencia visual.

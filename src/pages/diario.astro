@@ -1,0 +1,31 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import DiarioCampo from '../components/DiarioCampo.astro';
+import Footer from '../components/Footer.astro';
+
+const textos = await getEntry('textos', 'general');
+if (!textos) throw new Error('Falta src/content/textos/general.md');
+
+const diario = (await getCollection('diario')).sort(
+  (a, b) => a.data.fecha.valueOf() - b.data.fecha.valueOf(),
+);
+const categorias = await getCollection('categorias');
+const etiquetas = Object.fromEntries(categorias.map((cat) => [cat.id, cat.data.titulo]));
+
+const t = textos.data;
+---
+
+<Layout
+  title={`Diario de campo — ${t.autor}`}
+  description="Entradas del diario de campo de la etnografía visual sobre uso de pantallas en espacios públicos de Quito."
+  autor={t.autor}
+  fondos={diario.map((entrada) => entrada.data.imagenPrincipal)}
+>
+  <Navbar actual="diario" />
+  <main id="contenido">
+    <DiarioCampo entradas={diario} etiquetas={etiquetas} />
+  </main>
+  <Footer autor={t.autor} docente={t.docente} materia={t.materia} />
+</Layout>

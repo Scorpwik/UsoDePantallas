@@ -1,24 +1,15 @@
 ---
 titulo: Escena cultural
 orden: 4
-contexto: Los patios de comidas y las zonas infantiles de centros comerciales en el norte de Quito son umbrales entre el consumo, el cuidado y la espera. Son lugares climatizados, ruidosos, con luz continua y con una promesa implícita de control. Las familias llegan para comer, para que los niños se muevan y para sostener una tarde sin estar en la calle.
+contexto: La observación se sitúa en tres tipos de lugar público en San Francisco de Quito. El centro comercial, el parque y el restaurante concentran espera, cuidado y consumo. Ahí el dispositivo entra cuando el adulto necesita sostener una escena a la vista de otros.
 significados: En estas escenas, la pantalla no significa solo entretenimiento. Significa tregua, recompensa, prueba de que el adulto está gestionando la situación y, a veces, una forma de no tener que explicar el cansancio. Compartir un video puede ser cariño. Entregar el teléfono en silencio también puede ser una puerta que se cierra.
-salidasCampo:
-  - fecha: "28 sep 2026"
-    lugar: Patio de comidas, Mall El Jardín
-    nota: Primera toma de contacto. Se identifican mesas de alta rotación y el patrón de la espera del pedido.
-  - fecha: "2 oct 2026"
-    lugar: Zona infantil, Centro Comercial Iñaquito (CCI)
-    nota: Contraste entre juego corporal y tablets en la orilla del área de juegos.
-  - fecha: "5 oct 2026"
-    lugar: Patio de comidas, Quicentro Shopping
-    nota: Horario de oficina. Más adultos con computadoras; los niños ocupan menos mesas, pero el patrón de crisis se repite.
-  - fecha: "11 oct 2026"
-    lugar: Mall El Jardín, mesas junto a la zona de juegos
-    nota: Se observa el paso de la mesa al juego y el uso del teléfono como puente entre ambos.
-  - fecha: "15 oct 2026"
-    lugar: CCI, acceso a la zona infantil
-    nota: Rituales de entrada y salida. La pantalla aparece justo antes de ponerse los zapatos o de recoger las chaquetas.
+lugares:
+  - nombre: Centro comercial
+    descripcion: Interiores climatizados, luz continua y una promesa de control. Los patios de comidas y las zonas infantiles del norte de Quito —El Jardín, CCI, Quicentro— son umbrales entre el consumo y el cuidado. Entregar un teléfono ahí no se lee igual que entregarlo a cielo abierto.
+  - nombre: Parque
+    descripcion: Espacio abierto, con juego corporal a la vista y menos reglas de consumo. La fachada pública sigue existiendo, pero el umbral de lo aceptable cambia. La pantalla aparece sobre todo en la orilla del juego, cuando hay que esperar, recoger o calmar sin abandonar el banco.
+  - nombre: Restaurantes
+    descripcion: Mesas, pedidos y tiempos de espera. El niño comparte un recinto más chico, con vecinos a poca distancia. El dispositivo entra con frecuencia entre el momento de sentarse y la llegada de la comida, y a veces permanece cuando llega la bandeja.
 ---
 
-El espacio público de estos centros no es la plaza. Es un interior vigilado, con reglas de consumo y con una idea de seguridad familiar. Eso cambia el umbral de lo que un adulto considera aceptable. Entregar un teléfono ahí no se lee igual que entregarlo en un parque abierto. La observación se queda en ese matiz.
+El espacio público de estos lugares no es la plaza abstracta. Es un interior vigilado o una orilla de parque con reglas implícitas. Eso cambia el umbral de lo que un adulto considera aceptable. La observación se queda en ese matiz.

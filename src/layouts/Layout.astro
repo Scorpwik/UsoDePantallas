@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
 
+import FondoCampo from '../components/FondoCampo.astro';
+
 interface Props {
   title: string;
   description: string;
   autor: string;
+  fondos?: string[];
 }
 
-const { title, description, autor } = Astro.props;
+const { title, description, autor, fondos = [] } = Astro.props;
 const canonico = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
 ---
 
@@ -25,7 +28,7 @@ const canonico = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Ast
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@700&display=swap"
       rel="stylesheet"
     />
     <meta property="og:title" content={title} />
@@ -44,6 +47,7 @@ const canonico = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Ast
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <FondoCampo imagenes={fondos} />
     <div class="barra-progreso" data-progreso aria-hidden="true"></div>
     <div class="cursor-anillo" data-cursor aria-hidden="true"></div>
     <slot />

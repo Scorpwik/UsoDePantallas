@@ -3,19 +3,115 @@ import { render, type CollectionEntry } from 'astro:content';
 
 interface Props {
   entrada: CollectionEntry<'secciones'>;
+  objetivos: string[];
+  categorias: CollectionEntry<'categorias'>[];
+  diario: CollectionEntry<'diario'>[];
 }
 
-const { entrada } = Astro.props;
+const { entrada, objetivos, categorias, diario } = Astro.props;
 const { Content } = await render(entrada);
+
+const hallazgos = [
+  {
+    hallazgo:
+      'El dispositivo entra cuando la escena pública se desordena —un llanto, una espera, un traslado— y se retira cuando el entorno vuelve a ser manejable.',
+    respuesta:
+      'Los padres no usan la pantalla de forma continua, sino puntual. El teléfono media la crisis más que acompañar toda la mesa.',
+  },
+  {
+    hallazgo:
+      'El mismo artefacto sostiene soledad y vínculo. Auriculares y silencio cierran el entorno; un video comentado lo abre un instante.',
+    respuesta:
+      'La exposición no produce un único efecto psicológico o social. Depende de quién sostiene el aparato y de si hay habla alrededor.',
+  },
+  {
+    hallazgo:
+      'Entrar, esperar el pedido, dejar el juego y recoger las chaquetas concentran la mayor frecuencia de uso.',
+    respuesta:
+      'En los rituales de transición la pantalla no entretiene tanto como acelera un cambio de estado.',
+  },
+];
+
+const bloques = objetivos.map((objetivo, i) => ({
+  objetivo,
+  ...(hallazgos[i] ?? {
+    hallazgo: 'El material aún no cubre este objetivo con un episodio completo.',
+    respuesta: 'Hace falta otra salida de campo para responder con la misma densidad.',
+  }),
+}));
+
+const conteo = categorias
+  .map((cat) => ({
+    id: cat.id,
+    titulo: cat.data.titulo,
+    n: diario.filter((entrada) => entrada.data.categorias.includes(cat.id)).length,
+  }))
+  .sort((a, b) => b.n - a.n);
+
+const max = conteo[0]?.n ?? 0;
 ---
 
-<section id="conclusiones" class="seccion" data-clip>
-  <div class="envolvente grid grid-cols-[0.8fr_1.2fr] gap-16">
-    <div>
-      <p class="kicker">07</p>
-      <h2 class="titulo-seccion">{entrada.data.titulo}</h2>
+<section id="conclusiones" class="seccion">
+  <div class="envolvente">
+    <span class="num-seccion">08 · {entrada.data.titulo}</span>
+    <h2 class="titulo-seccion">{entrada.data.titulo}</h2>
+    <p class="cita-destacada mt-8 max-w-[22ch]">
+      El teléfono es un mediador de crisis más que un compañero permanente de la mesa.
+    </p>
+
+    <ol class="mt-12 space-y-4">
+      {
+        bloques.map((bloque, i) => (
+          <li class="tarjeta grid grid-cols-3 gap-8" data-bloque>
+            <div>
+              <p class="font-display text-[40px] font-bold leading-none text-enfasis">
+                {String(i + 1).padStart(2, '0')}
+              </p>
+              <h3 class="mt-4 text-sm font-semibold text-texto">Objetivo</h3>
+              <p class="mt-2 text-arena">{bloque.objetivo}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-texto">Hallazgo</h3>
+              <p class="mt-2 text-arena">{bloque.hallazgo}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-texto">Respuesta</h3>
+              <p class="mt-2 text-arena">{bloque.respuesta}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-12" data-bloque>
+      <h3 class="subtitulo">Categorías más frecuentes</h3>
+      <p class="prosa mt-4">
+        Contadas sobre las entradas del diario. Un mismo episodio puede cargar más de una categoría.
+      </p>
+      <ul class="mt-6 space-y-4" aria-label="Frecuencia de categorías">
+        {
+          conteo.map((cat) => (
+            <li>
+              <div class="flex items-baseline justify-between gap-6">
+                <p class="text-texto">{cat.titulo}</p>
+                <p class="font-display text-xl font-bold text-turquesa">{cat.n}</p>
+              </div>
+              <span
+                class="mt-2 block h-[3px] rounded-full bg-panel"
+                aria-hidden="true"
+              >
+                <span
+                  class="block h-full rounded-full bg-turquesa"
+                  style={`width: ${max > 0 ? (cat.n / max) * 100 : 0}%`}
+                />
+              </span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-    <div class="prosa text-[19px] leading-relaxed">
+
+    <div class="prosa mt-12" data-bloque>
       <Content />
     </div>
   </div>

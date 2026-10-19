@@ -4,7 +4,7 @@ backend:
   branch: main
 
 # Descomentar la línea siguiente y correr `npx decap-server` para editar en local sin GitHub.
-# local_backend: true
+local_backend: true
 
 site_url: https://uso-de-pantallas.vercel.app
 display_url: https://uso-de-pantallas.vercel.app
@@ -73,6 +73,13 @@ collections:
       - { name: etica, label: Consideraciones éticas, widget: text, required: false }
       - { name: contexto, label: Contexto de observación, widget: text, required: false }
       - { name: significados, label: Significados compartidos, widget: text, required: false }
+      - name: lugares
+        label: Lugares de observación
+        widget: list
+        required: false
+        fields:
+          - { name: nombre, label: Nombre, widget: string }
+          - { name: descripcion, label: Descripción, widget: text }
       - name: salidasCampo
         label: Salidas de campo
         widget: list
@@ -81,6 +88,7 @@ collections:
           - { name: fecha, label: Fecha, widget: string }
           - { name: lugar, label: Lugar, widget: string }
           - { name: nota, label: Nota, widget: text }
+      - { name: comoObservar, label: Cómo fue observar, widget: text, required: false }
       - name: retos
         label: Retos
         widget: list

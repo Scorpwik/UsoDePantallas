@@ -1,6 +1,6 @@
 ---
 titulo: Conclusiones
-orden: 5
+orden: 6
 ---
 
 La pregunta de investigación se resuelve, en este recorte, de tres maneras.

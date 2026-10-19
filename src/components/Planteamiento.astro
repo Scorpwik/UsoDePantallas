@@ -1,6 +1,5 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
-import PanelCristal from './PanelCristal.astro';
 
 interface Props {
   entrada: CollectionEntry<'secciones'>;
@@ -9,63 +8,63 @@ interface Props {
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
 const { titulo, tema, pregunta, objetivoGeneral, objetivosEspecificos = [] } = entrada.data;
+const cita =
+  'La investigación no pregunta si las pantallas son buenas o malas. Pregunta cómo se usan, en qué momento aparecen y qué dejan de ocurrir cuando aparecen.';
 ---
 
-<section id="planteamiento" class="seccion" data-clip>
-  <div class="envolvente grid grid-cols-[0.9fr_1.1fr] gap-16">
-    <div>
-      <p class="kicker">01</p>
-      <h2 class="titulo-seccion">{titulo}</h2>
-    </div>
-    <div class="space-y-8">
-      {
-        tema && (
-          <div>
-            <h3 class="mb-3 font-display text-2xl font-bold tracking-tight">Tema</h3>
-            <p class="prosa" data-revelar>{tema}</p>
-          </div>
-        )
-      }
-      {
-        pregunta && (
-          <PanelCristal class="p-8">
-            <h3 class="mb-3 font-display text-2xl font-bold tracking-tight">Pregunta de investigación</h3>
-            <p class="text-[22px] leading-snug text-paper" data-revelar>{pregunta}</p>
-          </PanelCristal>
-        )
-      }
-      {
-        objetivoGeneral && (
-          <div>
-            <h3 class="mb-3 font-display text-2xl font-bold tracking-tight">Objetivo general</h3>
-            <p class="prosa">{objetivoGeneral}</p>
-          </div>
-        )
-      }
-    </div>
-  </div>
+<section id="planteamiento" class="seccion">
+  <div class="envolvente">
+    <span class="num-seccion">02 · {titulo}</span>
+    {
+      pregunta && (
+        <h2 class="titulo-seccion max-w-[22ch]" data-bloque>
+          {pregunta}
+        </h2>
+      )
+    }
 
-  {
-    objetivosEspecificos.length > 0 && (
-      <div class="envolvente mt-16">
-        <h3 class="mb-8 font-display text-2xl font-bold tracking-tight">Objetivos específicos</h3>
-        <ol class="grid grid-cols-3 gap-5">
-          {objetivosEspecificos.map((objetivo, i) => (
-            <li data-objetivo>
-              <PanelCristal class="h-full p-7">
-                <span class="font-display text-4xl font-extrabold text-porsche">{String(i + 1).padStart(2, '0')}</span>
-                <p class="mt-5 text-[17px] leading-relaxed text-paper">{objetivo}</p>
-              </PanelCristal>
-            </li>
-          ))}
-        </ol>
+    {
+      objetivoGeneral && (
+        <div class="mt-12" data-bloque>
+          <h3 class="subtitulo">Objetivo general</h3>
+          <p class="prosa mt-4 text-texto">{objetivoGeneral}</p>
+        </div>
+      )
+    }
+
+    {
+      objetivosEspecificos.length > 0 && (
+        <div class="mt-12">
+          <h3 class="subtitulo">Objetivos específicos</h3>
+          <ol class="mt-4">
+            {objetivosEspecificos.map((objetivo, i) => (
+              <li class="objetivo-banda" data-bloque>
+                <span class="font-display text-[40px] font-bold leading-none text-enfasis">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <p class="max-w-[680px] pt-1 text-texto">{objetivo}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )
+    }
+
+    <div class="mt-12 grid grid-cols-[0.9fr_1.1fr] gap-16">
+      <div data-bloque>
+        {
+          tema && (
+            <div>
+              <h3 class="subtitulo">Tema</h3>
+              <p class="prosa mt-4">{tema}</p>
+            </div>
+          )
+        }
+        <blockquote class="cita-destacada mt-10 max-w-[22ch]">{cita}</blockquote>
       </div>
-    )
-  }
-
-  <div class="envolvente prose-body mt-12">
-    <div class="prosa">
-      <Content />
+      <div class="prosa" data-bloque>
+        <Content />
+      </div>
     </div>
   </div>
 </section>

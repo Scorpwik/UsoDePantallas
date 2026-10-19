@@ -1,11 +1,12 @@
 ---
 interface Props {
   class?: string;
+  revelar?: boolean;
 }
 
-const { class: className } = Astro.props;
+const { class: className, revelar = true } = Astro.props;
 ---
 
-<div class:list={['panel-cristal', className]} data-glass>
+<div class:list={['tarjeta', className]} data-bloque={revelar ? true : undefined}>
   <slot />
 </div>

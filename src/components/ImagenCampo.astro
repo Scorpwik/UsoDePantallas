@@ -23,6 +23,7 @@ const webp = esRaster ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
         width={width}
         height={height}
         loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
         decoding="async"
         class:list={['img-campo', className]}
       />
@@ -34,6 +35,7 @@ const webp = esRaster ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
       width={width}
       height={height}
       loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
       decoding="async"
       class:list={['img-campo', className]}
     />

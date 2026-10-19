@@ -1,6 +1,5 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
-import PanelCristal from './PanelCristal.astro';
 
 interface Props {
   entrada: CollectionEntry<'secciones'>;
@@ -8,52 +7,42 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, contexto, significados, salidasCampo = [] } = entrada.data;
+const { titulo, contexto, significados, lugares = [] } = entrada.data;
+const cita =
+  'En estas escenas, la pantalla no significa solo entretenimiento. Significa tregua, recompensa, prueba de que el adulto está gestionando la situación.';
 ---
 
-<section id="escena" class="seccion" data-clip>
-  <div class="envolvente grid grid-cols-2 gap-16">
-    <div>
-      <p class="kicker">04</p>
-      <h2 class="titulo-seccion">{titulo}</h2>
-      {
-        contexto && (
-          <div class="mt-10">
-            <h3 class="mb-3 font-display text-2xl font-bold">Contexto</h3>
-            <p class="prosa" data-revelar>{contexto}</p>
-          </div>
-        )
-      }
-    </div>
-    <div class="space-y-6">
-      {
-        significados && (
-          <PanelCristal class="p-8">
-            <h3 class="mb-3 font-display text-2xl font-bold">Significados compartidos</h3>
-            <p class="text-mute" data-revelar>{significados}</p>
-          </PanelCristal>
-        )
-      }
-      <div class="prosa">
-        <Content />
+<section id="escena" class="seccion">
+  <div class="envolvente">
+    <div class="grid grid-cols-[1.1fr_0.9fr] gap-16">
+      <div data-bloque>
+        <span class="num-seccion">04 · {titulo}</span>
+        <h2 class="titulo-seccion">{titulo}</h2>
+        {contexto && <p class="prosa mt-8">{contexto}</p>}
+      </div>
+      <div class="space-y-8 pt-8" data-bloque>
+        {significados && <p class="cita-destacada">{cita}</p>}
+        <div class="prosa">
+          <Content />
+        </div>
+        {significados && <p class="prosa">{significados}</p>}
       </div>
     </div>
-  </div>
 
-  {
-    salidasCampo.length > 0 && (
-      <div class="envolvente mt-8">
-        <h3 class="font-display text-3xl font-bold tracking-tight">Línea de tiempo de las salidas</h3>
-        <ol class="linea-tiempo mt-10">
-          {salidasCampo.map((salida) => (
-            <li data-objetivo>
-              <p class="text-sm font-semibold text-porsche">{salida.fecha}</p>
-              <p class="mt-1 font-display text-xl font-bold">{salida.lugar}</p>
-              <p class="mt-2 max-w-3xl text-mute">{salida.nota}</p>
-            </li>
+    {
+      lugares.length > 0 && (
+        <div class="lugares-grid mt-12" data-lugares>
+          {lugares.map((lugar, i) => (
+            <article class="tarjeta" data-lugar>
+              <p class="font-display text-[40px] font-bold leading-none text-enfasis">
+                {String(i + 1).padStart(2, '0')}
+              </p>
+              <h3 class="subtitulo mt-6">{lugar.nombre}</h3>
+              <p class="mt-4 text-arena">{lugar.descripcion}</p>
+            </article>
           ))}
-        </ol>
-      </div>
-    )
-  }
+        </div>
+      )
+    }
+  </div>
 </section>

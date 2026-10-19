@@ -8,32 +8,35 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, enfoque, posicion, sesgo, etica } = entrada.data;
+const { titulo, enfoque, posicion, etica } = entrada.data;
+const cita = 'La unidad de análisis es el episodio.';
 
 const bloques = [
   { titulo: 'Enfoque', texto: enfoque },
-  { titulo: 'Observador participante periférico', texto: posicion },
-  { titulo: 'Sesgo declarado', texto: sesgo },
+  { titulo: 'Rol del observador', texto: posicion },
   { titulo: 'Consideraciones éticas', texto: etica },
 ].filter((b) => b.texto);
 ---
 
-<section id="metodologia" class="seccion" data-clip>
-  <div class="envolvente">
-    <p class="kicker">03</p>
-    <h2 class="titulo-seccion">{titulo}</h2>
-    <div class="mt-12 grid grid-cols-2 gap-5">
+<section id="metodologia" class="seccion">
+  <div class="envolvente metodologia-grid">
+    <div>
+      <span class="num-seccion">03 · Método</span>
+      <h2 class="titulo-seccion">{titulo}</h2>
+      <p class="cita-destacada mt-10 max-w-[14ch]">{cita}</p>
+    </div>
+    <div class="space-y-4">
       {
         bloques.map((bloque) => (
-          <PanelCristal class="p-8">
-            <h3 class="font-display text-2xl font-bold tracking-tight">{bloque.titulo}</h3>
-            <p class="mt-4 text-mute">{bloque.texto}</p>
+          <PanelCristal data-bloque>
+            <h3 class="subtitulo">{bloque.titulo}</h3>
+            <p class="mt-4 text-arena">{bloque.texto}</p>
           </PanelCristal>
         ))
       }
-    </div>
-    <div class="prosa mt-12">
-      <Content />
+      <div class="prosa pt-4" data-bloque>
+        <Content />
+      </div>
     </div>
   </div>
 </section>

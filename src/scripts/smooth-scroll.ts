@@ -6,7 +6,7 @@ export function initSmoothScroll(): Lenis | null {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return null;
 
-  const lenis = new Lenis({ autoRaf: false });
+  const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
   lenis.on('scroll', ScrollTrigger.update);
 
   gsap.ticker.add((time) => {

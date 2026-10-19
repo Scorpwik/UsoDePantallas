@@ -1,7 +1,7 @@
 ---
 titulo: Aislamiento social vs. consumo compartido
 descripcion: La misma pantalla puede cerrar al niño frente al grupo o abrir un pequeño rito compartido. Auriculares, volumen bajo y quién sostiene el aparato deciden si hay aislamiento o copresencia.
-color: "#FF3B1F"
+color: "#E0B54A"
 orden: 2
 ---
 
