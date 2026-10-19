@@ -8,5 +8,5 @@ fecha: 2026-10-20
 ciudad: San Francisco de Quito, Ecuador
 salidas: 5
 observaciones: 12
-entradasDiario: 2
+entradasDiario: 4
 ---
