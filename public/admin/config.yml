@@ -4,7 +4,7 @@ backend:
   branch: main
 
 # Descomentar la línea siguiente y correr `npx decap-server` para editar en local sin GitHub.
-local_backend: true
+#local_backend: true
 
 site_url: https://uso-de-pantallas.vercel.app
 display_url: https://uso-de-pantallas.vercel.app
