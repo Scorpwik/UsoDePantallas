@@ -177,7 +177,7 @@ function initCursor() {
     gsap.to(anillo, {
       width: on ? 36 : 12,
       height: on ? 36 : 12,
-      background: on ? 'rgb(224 181 74 / 0.14)' : 'rgb(224 181 74 / 0.2)',
+      background: on ? 'rgb(110 36 50 / 0.12)' : 'rgb(110 36 50 / 0.16)',
       duration: 0.25,
       ease: 'power2.out',
     });

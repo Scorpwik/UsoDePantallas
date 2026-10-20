@@ -2,13 +2,13 @@
 @import "lenis/dist/lenis.css";
 
 :root {
-  --fondo: #0a0908;
-  --panel: #22353b;
-  --texto: #eae0d5;
-  --arena: #c6ac8f;
-  --cafe: #5e503f;
-  --enfasis: #e0b54a;
-  --turquesa: #0f7c80;
+  --fondo: #f3ebdc;
+  --panel: #fff8ee;
+  --texto: #2c1814;
+  --arena: #6f5648;
+  --cafe: #8a6554;
+  --enfasis: #6e2432;
+  --turquesa: #3d5c58;
 }
 
 @theme {
@@ -29,7 +29,7 @@ html {
   color: var(--texto);
   min-width: 1280px;
   scroll-behavior: auto;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
@@ -60,8 +60,8 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
 .fondo-campo-foto {
   position: absolute;
   object-fit: cover;
-  filter: blur(64px) saturate(1.2);
-  opacity: 0.38;
+  filter: blur(72px) saturate(0.7) brightness(1.25);
+  opacity: 0.16;
   transform: scale(1.28);
   will-change: transform;
 }
@@ -111,7 +111,7 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   left: -8%;
   width: 920px;
   height: 560px;
-  background: radial-gradient(ellipse at center, rgb(15 124 128 / 0.42), transparent 68%);
+  background: radial-gradient(ellipse at center, rgb(110 36 50 / 0.16), transparent 68%);
 }
 
 .fondo-luz--oro {
@@ -119,7 +119,7 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   right: -12%;
   width: 780px;
   height: 500px;
-  background: radial-gradient(ellipse at center, rgb(224 181 74 / 0.28), transparent 66%);
+  background: radial-gradient(ellipse at center, rgb(255 248 238 / 0.7), transparent 66%);
 }
 
 .fondo-luz--sombra {
@@ -127,14 +127,14 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   bottom: -18%;
   width: 720px;
   height: 520px;
-  background: radial-gradient(ellipse at center, rgb(94 80 63 / 0.62), transparent 68%);
+  background: radial-gradient(ellipse at center, rgb(138 101 84 / 0.22), transparent 68%);
 }
 
 .fondo-campo-gradiente {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(180deg, rgb(10 9 8 / 0.42) 0%, rgb(10 9 8 / 0.78) 46%, rgb(10 9 8 / 0.94) 100%);
+  background: linear-gradient(180deg, rgb(243 235 220 / 0.55) 0%, rgb(243 235 220 / 0.78) 46%, rgb(243 235 220 / 0.92) 100%);
 }
 
 .fondo-mancha-wrap {
@@ -157,8 +157,8 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   left: -10%;
   width: 560px;
   height: 560px;
-  background: #5e503f;
-  opacity: 0.32;
+  background: #c9b49a;
+  opacity: 0.28;
 }
 
 .fondo-mancha--turquesa {
@@ -166,8 +166,8 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   right: -8%;
   width: 520px;
   height: 520px;
-  background: #0f7c80;
-  opacity: 0.28;
+  background: #6e2432;
+  opacity: 0.12;
 }
 
 .fondo-mancha--panel {
@@ -175,7 +175,7 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   left: 28%;
   width: 640px;
   height: 640px;
-  background: #22353b;
+  background: #fff8ee;
   opacity: 0.35;
 }
 
@@ -184,17 +184,20 @@ body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):n
   left: 8%;
   width: 480px;
   height: 480px;
-  background: #e0b54a;
-  opacity: 0.25;
+  background: #8a6554;
+  opacity: 0.16;
 }
 
 .fondo-grano {
   position: absolute;
-  inset: -20%;
+  inset: 0;
   z-index: 3;
-  opacity: 0.18;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  animation: grano-deriva 48s linear infinite;
+  opacity: 0.72;
+  background-image: url("/textura-papel.png");
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 @keyframes fondo-deriva {
@@ -305,12 +308,12 @@ body.cursor-custom img {
   height: 56px;
   margin: -28px 0 0 -28px;
   border-radius: 999px;
-  border: 1.5px solid rgb(198 172 143 / 0.7);
-  background: rgb(34 53 59 / 0.96);
-  color: var(--texto);
+  border: 1.5px solid rgb(110 36 50 / 0.35);
+  background: rgb(255 248 238 / 0.96);
+  color: var(--enfasis);
   text-decoration: none;
   pointer-events: auto;
-  box-shadow: 0 8px 22px rgb(10 9 8 / 0.35);
+  box-shadow: 0 8px 22px rgb(44 24 20 / 0.12);
   transition:
     background-color 0.45s ease,
     border-color 0.45s ease,
@@ -319,10 +322,10 @@ body.cursor-custom img {
 }
 
 .recorrido-parada.es-iluminada {
-  background: #e0b54a;
-  border-color: #e0b54a;
+  background: var(--enfasis);
+  border-color: var(--enfasis);
   color: var(--fondo);
-  box-shadow: 0 0 28px rgb(224 181 74 / 0.5);
+  box-shadow: 0 0 28px rgb(110 36 50 / 0.45);
 }
 
 body:has(.recorrido) #contenido {
@@ -345,7 +348,7 @@ body:has(.recorrido) .envolvente {
   margin: -6px 0 0 -6px;
   border-radius: 999px;
   border: 1.5px solid var(--enfasis);
-  background: rgb(224 181 74 / 0.2);
+  background: rgb(110 36 50 / 0.16);
   pointer-events: none;
   will-change: transform;
 }
@@ -361,8 +364,8 @@ body:has(.recorrido) .envolvente {
   width: 100%;
   min-width: 1280px;
   padding: 14px 40px 12px;
-  background: rgb(10 9 8 / 0.82);
-  border-bottom: 1px solid rgb(234 224 213 / 0.1);
+  background: rgb(243 235 220 / 0.88);
+  border-bottom: 1px solid rgb(110 36 50 / 0.12);
   pointer-events: auto;
   backdrop-filter: blur(16px);
 }
@@ -504,9 +507,10 @@ body:has(.recorrido) .envolvente {
   position: relative;
   overflow: hidden;
   background: var(--panel);
-  border: 1px solid rgba(234, 224, 213, 0.12);
+  border: 1px solid rgb(110 36 50 / 0.12);
   border-radius: 20px;
   padding: 28px;
+  box-shadow: 0 10px 28px rgb(44 24 20 / 0.06);
 }
 
 .tarjeta::after {
@@ -517,7 +521,7 @@ body:has(.recorrido) .envolvente {
   background: linear-gradient(
     115deg,
     transparent 36%,
-    rgb(234 224 213 / 0.07) 50%,
+    rgb(110 36 50 / 0.06) 50%,
     transparent 64%
   );
   transform: translateX(-120%);
@@ -545,7 +549,7 @@ body:has(.recorrido) .envolvente {
 
 .btn-pildora--ghost {
   background: transparent;
-  border: 1px solid rgba(234, 224, 213, 0.18);
+  border: 1px solid rgb(110 36 50 / 0.28);
   color: var(--texto);
 }
 
@@ -583,7 +587,7 @@ body:has(.recorrido) .envolvente {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgb(224 181 74 / 0.22);
+  border: 1px solid rgb(110 36 50 / 0.22);
 }
 
 .hero-anillo--a {
@@ -594,7 +598,7 @@ body:has(.recorrido) .envolvente {
 
 .hero-anillo--b {
   inset: 0;
-  border-color: rgb(15 124 128 / 0.28);
+  border-color: rgb(138 101 84 / 0.35);
   animation: orbita 110s linear infinite reverse;
 }
 
@@ -720,7 +724,7 @@ body:has(.recorrido) .envolvente {
   gap: 28px;
   align-items: start;
   padding: 28px 0;
-  border-top: 1px solid rgba(234, 224, 213, 0.1);
+  border-top: 1px solid rgb(44 24 20 / 0.1);
 }
 
 .bento {
@@ -760,12 +764,12 @@ body:has(.recorrido) .envolvente {
   grid-template-columns: 48px 1fr;
   gap: 20px;
   padding: 18px 0;
-  border-top: 1px solid rgba(234, 224, 213, 0.12);
+  border-top: 1px solid rgb(44 24 20 / 0.1);
   color: var(--arena);
 }
 
 .lista-refs li:last-child {
-  border-bottom: 1px solid rgba(234, 224, 213, 0.12);
+  border-bottom: 1px solid rgb(44 24 20 / 0.1);
 }
 
 .metodologia-grid {
@@ -847,7 +851,7 @@ body:has(.recorrido) .envolvente {
 }
 
 .cat-card:hover {
-  border-color: rgba(224, 181, 74, 0.35);
+  border-color: rgb(110 36 50 / 0.4);
 }
 
 .cat-card:focus-visible {
@@ -870,7 +874,7 @@ body:has(.recorrido) .envolvente {
   width: 100%;
   padding: 28px;
   background: var(--panel);
-  border: 1px solid rgba(234, 224, 213, 0.12);
+  border: 1px solid rgb(110 36 50 / 0.12);
   border-radius: 20px;
 }
 
@@ -895,15 +899,15 @@ body:has(.recorrido) .envolvente {
   min-height: 28px;
   padding: 0 10px;
   border-radius: 999px;
-  border: 1px solid rgb(15 124 128 / 0.45);
-  background: rgb(15 124 128 / 0.16);
+  border: 1px solid rgb(110 36 50 / 0.28);
+  background: rgb(110 36 50 / 0.08);
   color: var(--texto);
   font-size: 13px;
 }
 
 .bloque-cierre {
   background: var(--panel);
-  border: 1px solid rgba(234, 224, 213, 0.12);
+  border: 1px solid rgb(110 36 50 / 0.12);
   border-radius: 20px;
   padding: 36px 40px;
 }
@@ -920,7 +924,7 @@ body:has(.recorrido) .envolvente {
 
 .pie {
   padding: 72px 0 48px;
-  border-top: 1px solid rgba(234, 224, 213, 0.1);
+  border-top: 1px solid rgb(44 24 20 / 0.1);
   color: var(--arena);
   font-size: 14px;
 }

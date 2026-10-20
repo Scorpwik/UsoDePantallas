@@ -70,11 +70,11 @@ const max = conteo[0]?.n ?? 0;
                 <li>
                   <div class="flex items-baseline justify-between gap-6">
                     <p class="text-texto">{cat.titulo}</p>
-                    <p class="font-display text-xl font-bold text-turquesa">{cat.n}</p>
+                    <p class="font-display text-xl font-bold text-enfasis">{cat.n}</p>
                   </div>
                   <span class="mt-2 block h-[3px] rounded-full bg-panel" aria-hidden="true">
                     <span
-                      class="block h-full rounded-full bg-turquesa"
+                      class="block h-full rounded-full bg-enfasis"
                       style={`width: ${max > 0 ? (cat.n / max) * 100 : 0}%`}
                     />
                   </span>
