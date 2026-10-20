@@ -11,14 +11,20 @@ const { Content } = await render(entrada);
 const { titulo, enfoque, posicion, etica } = entrada.data;
 const cita = 'La unidad de análisis es el episodio.';
 
+const enfoqueItems = Array.isArray(enfoque)
+  ? enfoque
+  : typeof enfoque === 'string' && enfoque.trim()
+    ? [enfoque]
+    : [];
+
 const bloques = [
-  { titulo: 'Enfoque', texto: enfoque },
+  { titulo: 'Enfoque', items: enfoqueItems },
   { titulo: 'Observador no participante', texto: posicion },
   { titulo: 'Consideraciones éticas', texto: etica },
-].filter((b) => b.texto);
+].filter((b) => b.texto || (Array.isArray(b.items) && b.items.length > 0));
 ---
 
-<section id="metodologia" class="seccion">
+<section id="metodologia" class="seccion" data-recorrido-seccion>
   <div class="envolvente metodologia-grid">
     <div>
       <span class="num-seccion">03 · Método</span>
@@ -30,7 +36,17 @@ const bloques = [
         bloques.map((bloque) => (
           <PanelCristal data-bloque>
             <h3 class="subtitulo">{bloque.titulo}</h3>
-            <p class="mt-4 text-arena">{bloque.texto}</p>
+            {
+              Array.isArray(bloque.items) && bloque.items.length > 0 ? (
+                <ul class="mt-4 list-disc space-y-2 pl-5 text-arena">
+                  {bloque.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="mt-4 text-arena">{bloque.texto}</p>
+              )
+            }
           </PanelCristal>
         ))
       }

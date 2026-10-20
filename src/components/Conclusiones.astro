@@ -1,15 +1,12 @@
 ---
-import { render, type CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   entrada: CollectionEntry<'secciones'>;
   objetivos: string[];
-  categorias: CollectionEntry<'categorias'>[];
-  diario: CollectionEntry<'diario'>[];
 }
 
-const { entrada, objetivos, categorias, diario } = Astro.props;
-const { Content } = await render(entrada);
+const { entrada, objetivos } = Astro.props;
 
 const hallazgos = [
   {
@@ -37,24 +34,15 @@ const bloques = objetivos.map((objetivo, i) => ({
     respuesta: 'Hace falta otra salida de campo para responder con la misma densidad.',
   }),
 }));
-
-const conteo = categorias
-  .map((cat) => ({
-    id: cat.id,
-    titulo: cat.data.titulo,
-    n: diario.filter((entrada) => entrada.data.categorias.includes(cat.id)).length,
-  }))
-  .sort((a, b) => b.n - a.n);
-
-const max = conteo[0]?.n ?? 0;
 ---
 
-<section id="conclusiones" class="seccion">
+<section id="conclusiones" class="seccion" data-recorrido-seccion>
   <div class="envolvente">
-    <span class="num-seccion">08 · {entrada.data.titulo}</span>
+    <span class="num-seccion">08 · Conclusiones</span>
     <h2 class="titulo-seccion">{entrada.data.titulo}</h2>
-    <p class="cita-destacada mt-8 max-w-[22ch]">
-      El celular funciona más como algo que calma un momento difícil que como algo que se usa todo el tiempo.
+    <p class="cita-destacada mt-8 max-w-[22ch]" data-bloque>
+      El celular funciona más como algo que calma un momento difícil que como algo que se usa todo el
+      tiempo.
     </p>
 
     <ol class="mt-12 space-y-4">
@@ -80,37 +68,5 @@ const max = conteo[0]?.n ?? 0;
         ))
       }
     </ol>
-
-    <div class="mt-12" data-bloque>
-      <h3 class="subtitulo">Categorías más frecuentes</h3>
-      <p class="prosa mt-4">
-        Contadas sobre las entradas del diario. Un mismo episodio puede cargar más de una categoría.
-      </p>
-      <ul class="mt-6 space-y-4" aria-label="Frecuencia de categorías">
-        {
-          conteo.map((cat) => (
-            <li>
-              <div class="flex items-baseline justify-between gap-6">
-                <p class="text-texto">{cat.titulo}</p>
-                <p class="font-display text-xl font-bold text-turquesa">{cat.n}</p>
-              </div>
-              <span
-                class="mt-2 block h-[3px] rounded-full bg-panel"
-                aria-hidden="true"
-              >
-                <span
-                  class="block h-full rounded-full bg-turquesa"
-                  style={`width: ${max > 0 ? (cat.n / max) * 100 : 0}%`}
-                />
-              </span>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <div class="prosa mt-12" data-bloque>
-      <Content />
-    </div>
   </div>
 </section>

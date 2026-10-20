@@ -20,9 +20,21 @@ const fotos = [...new Set(imagenes.filter(Boolean))].slice(0, 4);
       />
     ))
   }
-  <div class="fondo-blob fondo-blob--turquesa" data-fondo-blob></div>
-  <div class="fondo-blob fondo-blob--mostaza" data-fondo-blob></div>
-  <div class="fondo-blob fondo-blob--cafe" data-fondo-blob></div>
+  <div class="fondo-mancha-wrap" data-fondo-mancha-scroll>
+    <div class="fondo-mancha fondo-mancha--cafe" data-fondo-blob></div>
+  </div>
+  <div class="fondo-mancha-wrap" data-fondo-mancha-scroll>
+    <div class="fondo-mancha fondo-mancha--turquesa" data-fondo-blob></div>
+  </div>
+  <div class="fondo-mancha-wrap" data-fondo-mancha-scroll>
+    <div class="fondo-mancha fondo-mancha--panel" data-fondo-blob></div>
+  </div>
+  <div class="fondo-mancha-wrap" data-fondo-mancha-scroll>
+    <div class="fondo-mancha fondo-mancha--mostaza" data-fondo-blob></div>
+  </div>
+  <div class="fondo-luz fondo-luz--turquesa" data-fondo-luz></div>
+  <div class="fondo-luz fondo-luz--oro" data-fondo-luz></div>
+  <div class="fondo-luz fondo-luz--sombra" data-fondo-luz></div>
   <div class="fondo-campo-gradiente"></div>
   <div class="fondo-grano"></div>
 </div>

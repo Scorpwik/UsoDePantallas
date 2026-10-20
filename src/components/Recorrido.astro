@@ -1,0 +1,263 @@
+---
+const paradas = [
+  { id: 'planteamiento', label: 'Planteamiento', icono: 'ojo' },
+  { id: 'reflexividad', label: 'Mi posición', icono: 'celular' },
+  { id: 'escena', label: 'Lugares', icono: 'pin' },
+  { id: 'diario', label: 'Diario', icono: 'foto' },
+  { id: 'categorias', label: 'Categorías', icono: 'tarjetas' },
+  { id: 'conclusiones', label: 'Conclusiones', icono: 'nota' },
+  { id: 'reflexion', label: 'Reflexión', icono: 'punto' },
+  { id: 'referencias', label: 'Referencias', icono: 'lista' },
+] as const;
+---
+
+<div class="recorrido" data-recorrido>
+  <svg
+    class="recorrido-svg"
+    data-recorrido-svg
+    viewBox="0 0 200 1200"
+    width="200"
+    height="1200"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <defs>
+      <linearGradient id="serpiente-tono" x1="100" y1="0" x2="100" y2="1200" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#E0B54A"></stop>
+        <stop offset="100%" stop-color="#5E503F"></stop>
+      </linearGradient>
+      <filter id="serpiente-brillo" x="-40%" y="-2%" width="180%" height="104%">
+        <feGaussianBlur stdDeviation="6"></feGaussianBlur>
+      </filter>
+    </defs>
+    <path
+      data-recorrido-glow
+      d="M 96 8 C 168 90, 28 170, 118 260"
+      stroke="url(#serpiente-tono)"
+      stroke-width="14"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      filter="url(#serpiente-brillo)"
+      opacity="0.55"
+    ></path>
+    <path
+      data-recorrido-trazo
+      d="M 96 8 C 168 90, 28 170, 118 260"
+      stroke="url(#serpiente-tono)"
+      stroke-width="14"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+
+  <nav class="recorrido-paradas" aria-label="Paradas del recorrido">
+    {
+      paradas.map((parada) => (
+        <a
+          class="recorrido-parada"
+          href={`#${parada.id}`}
+          data-recorrido-parada
+          data-parada={parada.id}
+          aria-label={parada.label}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            {parada.icono === 'ojo' && (
+              <>
+                <path
+                  d="M3.5 12c2.4-4.2 5.2-6.2 8.5-6.2S18.1 7.8 20.5 12c-2.4 4.2-5.2 6.2-8.5 6.2S5.9 16.2 3.5 12Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 14.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'camara' && (
+              <>
+                <path
+                  d="M4.2 8.4c0-.9.7-1.7 1.6-1.7h1.1c.4 0 .8-.2 1-.6l.4-.7c.3-.5.8-.8 1.4-.8h4.6c.6 0 1.1.3 1.4.8l.4.7c.2.4.6.6 1 .6h1.1c.9 0 1.6.8 1.6 1.7v8c0 .9-.7 1.7-1.6 1.7H5.8c-.9 0-1.6-.8-1.6-1.7v-8Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 16.1a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'pin' && (
+              <>
+                <path
+                  d="M12 21s-6.2-6.1-6.2-10.2a6.2 6.2 0 1 1 12.4 0C18.2 14.9 12 21 12 21Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 12.6a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'celular' && (
+              <>
+                <path
+                  d="M8.2 3.6h7.6c.9 0 1.6.7 1.6 1.6v13.6c0 .9-.7 1.6-1.6 1.6H8.2c-.9 0-1.6-.7-1.6-1.6V5.2c0-.9.7-1.6 1.6-1.6Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M10.4 4.8h3.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M12 18.4h.01"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'foto' && (
+              <>
+                <path
+                  d="M4.4 7.2c0-1 .8-1.8 1.8-1.8h11.6c1 0 1.8.8 1.8 1.8v9.6c0 1-.8 1.8-1.8 1.8H6.2c-1 0-1.8-.8-1.8-1.8V7.2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.8 16.2 9 12.2c.4-.4 1-.4 1.4 0l2.4 2.3 2.2-1.8c.4-.3 1-.3 1.4.1L19.2 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M16.4 9.4a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'tarjetas' && (
+              <>
+                <path
+                  d="M4.6 8.2c0-.8.6-1.5 1.5-1.5h8.2c.8 0 1.5.7 1.5 1.5v8.1c0 .8-.7 1.5-1.5 1.5H6.1c-.9 0-1.5-.7-1.5-1.5V8.2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.2 5.2h8.4c.9 0 1.6.7 1.6 1.6v8.4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </>
+            )}
+            {parada.icono === 'nota' && (
+              <>
+                <path
+                  d="M7 4.4h7.2c.4 0 .8.2 1.1.5l2.8 2.9c.3.3.5.7.5 1.1v9.7c0 .9-.7 1.6-1.6 1.6H7c-.9 0-1.6-.7-1.6-1.6V6c0-.9.7-1.6 1.6-1.6Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.2 4.8v2.8c0 .6.5 1.1 1.1 1.1h2.7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.4 12.2h7.2M8.4 15.4h5.1"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'punto' && (
+              <>
+                <path
+                  d="M12 19.2a7.2 7.2 0 1 0 0-14.4 7.2 7.2 0 0 0 0 14.4Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M12 13.1a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'lista' && (
+              <>
+                <path
+                  d="M6.4 7.2h.02M6.4 12h.02M6.4 16.8h.02"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M10.2 7.2h7.4M10.2 12h7.4M10.2 16.8h5.2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </>
+            )}
+          </svg>
+        </a>
+      ))
+    }
+  </nav>
+</div>

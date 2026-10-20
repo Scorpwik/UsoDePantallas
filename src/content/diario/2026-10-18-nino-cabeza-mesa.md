@@ -1,11 +1,13 @@
 ---
-titulo: "Un niño con la cabeza sobre la mesa"
+titulo: "Niño comiendo desconectado"
 fecha: 2026-10-18
 hora: "Entre las 13:00 y las 16:00"
 espacio: "Patio de comidas, Centro Comercial Quicentro Sur"
-descripcion: "Un niño tiene la cabeza apoyada sobre la mesa, junto a su vaso y con el celular en la bandeja. Al lado, una señora de negro come y mira hacia otra persona. Mientras la señora come, el niño no levanta la mirada de la pantalla. Cada escena la observé durante unos treinta minutos."
-impresiones: "Olor a comida y la misma sensación de frustración. No escuché palabras entre el niño y la señora: solo el ruido del patio de comidas, voces y bandejas."
-reflexion: "Me generó frustración ver que el niño está con el celular mientras la adulta come, como si no hubiera conversación entre ellos. Me hizo pensar otra vez en por qué los padres siguen permitiendo esto en lugar de buscar otra forma de entretener al niño. No intervine, y no me costó, porque ese era el objetivo de la observación."
+descripcion: "Un niño está en la mesa junto a una señora que parece su madre. Tiene su vaso y el celular apoyado en la bandeja. Mientras la señora come, el niño no levanta la mirada de la pantalla en ningún momento."
+impresiones:
+  - "Olor a comida y la misma sensación de frustración."
+  - "No escuché palabras entre el niño y la señora: solo el ruido del patio de comidas, voces y bandejas."
+reflexion: "Me generó frustración ver que el niño está con el celular mientras la madre come, como si no estuviera ahí. Me hizo pensar otra vez en por qué los padres siguen permitiendo esto en lugar de buscar otra forma de entretener al niño."
 frases: []
 categorias:
   - aislamiento-consumo

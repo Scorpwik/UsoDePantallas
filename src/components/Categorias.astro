@@ -17,20 +17,28 @@ const grupos = categorias.map((cat) => ({
     (entrada.data.categorias as string[]).includes(cat.id),
   ),
 }));
+
+const conteo = categorias
+  .map((cat) => ({
+    id: cat.id,
+    titulo: cat.data.titulo,
+    n: diario.filter((entrada) => entrada.data.categorias.includes(cat.id)).length,
+  }))
+  .sort((a, b) => b.n - a.n);
+
+const max = conteo[0]?.n ?? 0;
 ---
 
-<section id="categorias" class="seccion categorias-seccion">
+<section id="categorias" class="seccion categorias-seccion" data-recorrido-seccion>
   <div class="envolvente">
     <header data-bloque>
       <span class="num-seccion">07 · Categorías culturales</span>
       <h2 class="titulo-seccion">Categorías culturales</h2>
-      <p class="prosa mt-6">
-        Dos lecturas del material. Cada tarjeta se abre y muestra las entradas del diario asociadas.
-      </p>
     </header>
 
     <div class="categorias-stage mt-10">
-      <div class="categorias-deck" data-cat-deck>
+      <div class="categorias-layout grid grid-cols-[1.1fr_0.9fr] items-start gap-16">
+        <div class="categorias-deck" data-cat-deck>
         {
           grupos.map((cat, i) => (
             <button
@@ -49,6 +57,32 @@ const grupos = categorias.map((cat) => ({
             </button>
           ))
         }
+        </div>
+
+        <div class="categorias-frecuentes" data-bloque>
+          <h3 class="subtitulo">Categorías más frecuentes</h3>
+          <p class="prosa mt-4">
+            Contadas sobre las entradas del diario. Un mismo episodio puede cargar más de una categoría.
+          </p>
+          <ul class="mt-6 space-y-4" aria-label="Frecuencia de categorías">
+            {
+              conteo.map((cat) => (
+                <li>
+                  <div class="flex items-baseline justify-between gap-6">
+                    <p class="text-texto">{cat.titulo}</p>
+                    <p class="font-display text-xl font-bold text-turquesa">{cat.n}</p>
+                  </div>
+                  <span class="mt-2 block h-[3px] rounded-full bg-panel" aria-hidden="true">
+                    <span
+                      class="block h-full rounded-full bg-turquesa"
+                      style={`width: ${max > 0 ? (cat.n / max) * 100 : 0}%`}
+                    />
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
 
       {

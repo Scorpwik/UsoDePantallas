@@ -15,7 +15,7 @@ export function initSitio() {
     gsap.set('[data-cat-card]', { autoAlpha: 1, y: 0, scale: 1 });
     gsap.set('[data-mask-img]', { autoAlpha: 1, scale: 1 });
     initNavbar(null);
-    initProgreso(null);
+    initRecorrido(null, true);
     initCategoriasClick(null);
     return () => undefined;
   });
@@ -25,12 +25,13 @@ export function initSitio() {
     requestAnimationFrame(() => ScrollTrigger.refresh());
     initCursor();
     initHeroTitulo();
+    initCarruselHero();
     initBloques();
     initLugares();
     initContadores();
     initMaskImagenes();
     initNavbar(lenis);
-    initProgreso(lenis);
+    initRecorrido(lenis, false);
     initCategorias(lenis);
     initAmbiente();
     return () => {
@@ -55,14 +56,90 @@ function initAmbiente() {
     });
   }
 
-  gsap.to('[data-fondo-blob]', {
-    x: (i) => (i === 1 ? 64 : -48),
-    y: (i) => (i === 2 ? 36 : -56),
-    duration: (i) => 18 + i * 5,
-    yoyo: true,
-    repeat: -1,
-    ease: 'sine.inOut',
-    stagger: 1.6,
+  const manchas = gsap.utils.toArray<HTMLElement>('[data-fondo-blob]');
+  manchas.forEach((mancha, i) => {
+    const recorrido = [
+      { x: 240, y: -170 },
+      { x: -280, y: 190 },
+      { x: 200, y: 230 },
+      { x: -210, y: -180 },
+    ][i % 4];
+    const ciclo = [34, 40, 30, 46][i % 4];
+
+    gsap.to(mancha, {
+      x: recorrido.x,
+      duration: ciclo,
+      delay: i * 1.6,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to(mancha, {
+      y: recorrido.y,
+      duration: ciclo * 1.35,
+      delay: i * 0.8,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to(mancha, {
+      scale: i % 2 === 0 ? 1.2 : 0.84,
+      duration: ciclo * 0.55,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to(mancha, {
+      rotation: i % 2 === 0 ? 360 : -360,
+      duration: ciclo * 2.4,
+      ease: 'none',
+      repeat: -1,
+    });
+  });
+
+  const luces = gsap.utils.toArray<HTMLElement>('[data-fondo-luz]');
+  luces.forEach((luz, i) => {
+    const recorrido = [
+      { x: 180, y: 140 },
+      { x: -210, y: 160 },
+      { x: -140, y: -190 },
+    ][i % 3];
+    const ciclo = [28, 36, 32][i % 3];
+
+    gsap.to(luz, {
+      x: recorrido.x,
+      duration: ciclo,
+      delay: i * 2.2,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to(luz, {
+      y: recorrido.y,
+      duration: ciclo * 1.45,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+    gsap.to(luz, {
+      scale: 1.16,
+      duration: ciclo * 0.7,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+  });
+
+  gsap.to('[data-fondo-mancha-scroll]', {
+    y: (i) => (i % 2 === 0 ? 72 : -64),
+    x: (i) => (i % 2 === 0 ? -36 : 44),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.4,
+    },
   });
 
   const orbita = document.querySelector('.hero-orbita');
@@ -110,6 +187,49 @@ function initCursor() {
     el.addEventListener('pointerenter', () => crece(true));
     el.addEventListener('pointerleave', () => crece(false));
   });
+}
+
+function initCarruselHero() {
+  const caja = document.querySelector<HTMLElement>('[data-hero-carrusel]');
+  if (!caja) return;
+
+  const pistaA = caja.querySelector<HTMLElement>('[data-hero-track="a"]');
+  const pistaB = caja.querySelector<HTMLElement>('[data-hero-track="b"]');
+
+  const deslizar = (pista: HTMLElement | null, inverso: boolean) => {
+    if (!pista) return;
+    const mitad = pista.scrollWidth / 2;
+    if (mitad < 8) return;
+    gsap.fromTo(
+      pista,
+      { x: inverso ? -mitad : 0 },
+      {
+        x: inverso ? 0 : -mitad,
+        duration: inverso ? 34 : 28,
+        ease: 'none',
+        repeat: -1,
+      },
+    );
+  };
+
+  deslizar(pistaA, false);
+  deslizar(pistaB, true);
+
+  gsap.fromTo(
+    caja,
+    { autoAlpha: 1, x: 0 },
+    {
+      autoAlpha: 0,
+      x: 72,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#inicio',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.7,
+      },
+    },
+  );
 }
 
 function initHeroTitulo() {
@@ -281,7 +401,10 @@ function initNavbar(lenis: Lenis | null) {
     if (esHashLocal) {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        irA(href, lenis, -72);
+        const seccion = document.querySelector<HTMLElement>(href);
+        const ancla = seccion?.querySelector<HTMLElement>('h2, h1') ?? seccion;
+        if (ancla) irA(ancla, lenis, extraAlCentro(ancla));
+        else irA(href, lenis, -window.innerHeight / 2);
         history.replaceState(null, '', href);
       });
     }
@@ -306,20 +429,264 @@ function initNavbar(lenis: Lenis | null) {
   }
 }
 
-function initProgreso(lenis: Lenis | null) {
-  const barra = document.querySelector<HTMLElement>('[data-progreso]');
-  if (!barra) return;
+function acotar(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
 
-  const actualizar = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const y = lenis?.scroll ?? window.scrollY;
-    const p = max > 0 ? y / max : 0;
-    gsap.set(barra, { scaleX: Math.min(1, Math.max(0, p)) });
+function puntosOla(yFin: number) {
+  const y0 = 12;
+  const y1 = Math.max(y0 + 120, yFin);
+  const puntos: { x: number; y: number }[] = [];
+  const tramos = Math.max(28, Math.round((y1 - y0) / 120));
+  for (let i = 0; i <= tramos; i++) {
+    const t = i / tramos;
+    const y = y0 + t * (y1 - y0);
+    const x =
+      100 +
+      Math.sin(y / 250) * 54 +
+      Math.sin(y / 580 + 0.6) * 10;
+    puntos.push({ x: acotar(x, 40, 160), y });
+  }
+  return puntos;
+}
+
+function curvaCatmull(puntos: { x: number; y: number }[]) {
+  if (puntos.length === 0) return '';
+  let d = `M ${puntos[0].x.toFixed(1)} ${puntos[0].y.toFixed(1)}`;
+
+  for (let i = 0; i < puntos.length - 1; i++) {
+    const p0 = puntos[i - 1] ?? puntos[i];
+    const p1 = puntos[i];
+    const p2 = puntos[i + 1];
+    const p3 = puntos[i + 2] ?? p2;
+    const c1x = acotar(p1.x + (p2.x - p0.x) / 5.5, 28, 172);
+    const c1y = p1.y + (p2.y - p0.y) / 5.5;
+    const c2x = acotar(p2.x - (p3.x - p1.x) / 5.5, 28, 172);
+    const c2y = p2.y - (p3.y - p1.y) / 5.5;
+    d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+  }
+
+  return d;
+}
+
+function yDocumento(seccion: HTMLElement, ancla: HTMLElement) {
+  const desplazamiento = Number(gsap.getProperty(seccion, 'y')) || 0;
+  const cajaSeccion = seccion.getBoundingClientRect();
+  const cajaAncla = ancla.getBoundingClientRect();
+  return (
+    cajaSeccion.top +
+    window.scrollY -
+    desplazamiento +
+    (cajaAncla.top - cajaSeccion.top) +
+    cajaAncla.height / 2
+  );
+}
+
+function puntoEnY(path: SVGPathElement, y: number) {
+  const total = path.getTotalLength();
+  if (total === 0) return { x: 100, y, dist: 0 };
+
+  let lo = 0;
+  let hi = total;
+  for (let i = 0; i < 18; i++) {
+    const mid = (lo + hi) / 2;
+    if (path.getPointAtLength(mid).y < y) lo = mid;
+    else hi = mid;
+  }
+
+  const punto = path.getPointAtLength((lo + hi) / 2);
+  return { x: punto.x, y: punto.y, dist: (lo + hi) / 2 };
+}
+
+function tablaDistancia(path: SVGPathElement) {
+  const total = path.getTotalLength();
+  const n = 72;
+  const muestras: { y: number; dist: number }[] = [];
+  for (let i = 0; i <= n; i++) {
+    const dist = (total * i) / n;
+    muestras.push({ y: path.getPointAtLength(dist).y, dist });
+  }
+  return { total, muestras };
+}
+
+function distEnY(tabla: ReturnType<typeof tablaDistancia>, y: number) {
+  const s = tabla.muestras;
+  if (s.length === 0) return 0;
+  if (y <= s[0].y) return s[0].dist;
+  if (y >= s[s.length - 1].y) return s[s.length - 1].dist;
+  for (let i = 1; i < s.length; i++) {
+    if (y <= s[i].y) {
+      const span = s[i].y - s[i - 1].y || 1;
+      const t = (y - s[i - 1].y) / span;
+      return s[i - 1].dist + t * (s[i].dist - s[i - 1].dist);
+    }
+  }
+  return s[s.length - 1].dist;
+}
+
+function extraAlCentro(el: HTMLElement) {
+  return el.offsetHeight / 2 - window.innerHeight / 2;
+}
+
+function initRecorrido(lenis: Lenis | null, reduce: boolean) {
+  const raiz = document.querySelector<HTMLElement>('[data-recorrido]');
+  const svg = document.querySelector<SVGSVGElement>('[data-recorrido-svg]');
+  const trazo = document.querySelector<SVGPathElement>('[data-recorrido-trazo]');
+  const glow = document.querySelector<SVGPathElement>('[data-recorrido-glow]');
+  const burbujas = gsap.utils.toArray<HTMLAnchorElement>('[data-recorrido-parada]');
+  if (!raiz || !svg || !trazo || !glow || burbujas.length === 0) return;
+
+  const degradado = svg.querySelector('#serpiente-tono');
+  let disparo: ScrollTrigger | undefined;
+  let tabla: ReturnType<typeof tablaDistancia> | undefined;
+  let layoutTimer = 0;
+  let altoPrevio = 0;
+  const reveladas = new Set<string>();
+
+  const actualizarParadas = (dibujado: number, largo: number) => {
+    burbujas.forEach((burbuja) => {
+      const dist = Number(burbuja.dataset.dist ?? 0);
+      const id = burbuja.dataset.parada ?? '';
+      const llega = dibujado >= dist - 20;
+      burbuja.classList.toggle('es-iluminada', llega);
+
+      const seccion = document.getElementById(id);
+      if (!seccion) return;
+      if (llega && !reveladas.has(id)) {
+        reveladas.add(id);
+        gsap.to(seccion, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      } else if (!llega && reveladas.has(id)) {
+        reveladas.delete(id);
+        gsap.to(seccion, {
+          autoAlpha: 0,
+          y: 24,
+          duration: 0.45,
+          ease: 'power2.in',
+          overwrite: 'auto',
+        });
+      }
+    });
   };
 
-  if (lenis) lenis.on('scroll', actualizar);
-  window.addEventListener('scroll', actualizar, { passive: true });
-  actualizar();
+  const yDeParada = (burbuja: HTMLAnchorElement) => {
+    const id = burbuja.dataset.parada ?? '';
+    const seccion = document.getElementById(id);
+    if (!seccion) return null;
+    const ancla = seccion.querySelector('h2') ?? seccion;
+    return { burbuja, seccion, ancla, y: yDocumento(seccion, ancla) };
+  };
+
+  const pintarCabeza = () => {
+    if (!tabla || reduce) return;
+    const yCabeza = window.scrollY + window.innerHeight * 0.5 + 36;
+    const dibujado = Math.min(tabla.total, distEnY(tabla, yCabeza));
+    gsap.set([trazo, glow], { strokeDashoffset: tabla.total - dibujado });
+    actualizarParadas(dibujado, tabla.total);
+  };
+
+  const layout = () => {
+    const anclas = burbujas
+      .map(yDeParada)
+      .filter((item): item is NonNullable<ReturnType<typeof yDeParada>> => item !== null);
+    if (anclas.length === 0) return;
+
+    const yFin = anclas[anclas.length - 1].y;
+    const altoTrazo = yFin + window.innerHeight * 0.55;
+    const altoPagina = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    if (Math.abs(altoPagina - altoPrevio) < 8 && disparo && !reduce) {
+      anclas.forEach(({ burbuja, y }) => {
+        const punto = puntoEnY(trazo, y);
+        gsap.set(burbuja, { x: punto.x, y: punto.y });
+        burbuja.dataset.dist = String(punto.dist);
+      });
+      pintarCabeza();
+      return;
+    }
+    altoPrevio = altoPagina;
+
+    raiz.style.height = `${altoTrazo}px`;
+    svg.setAttribute('viewBox', `0 0 200 ${altoTrazo}`);
+    svg.setAttribute('height', String(altoTrazo));
+    if (degradado instanceof SVGLinearGradientElement) {
+      degradado.setAttribute('y2', String(altoTrazo));
+    }
+
+    const d = curvaCatmull(puntosOla(altoTrazo));
+    trazo.setAttribute('d', d);
+    glow.setAttribute('d', d);
+
+    const largo = trazo.getTotalLength();
+    anclas.forEach(({ burbuja, y }) => {
+      const punto = puntoEnY(trazo, y);
+      gsap.set(burbuja, { x: punto.x, y: punto.y });
+      burbuja.dataset.dist = String(punto.dist);
+    });
+
+    tabla = tablaDistancia(trazo);
+
+    disparo?.kill();
+    disparo = undefined;
+
+    gsap.set([trazo, glow], {
+      strokeDasharray: largo,
+      strokeDashoffset: reduce ? 0 : largo,
+    });
+
+    if (reduce) {
+      burbujas.forEach((burbuja) => burbuja.classList.add('es-iluminada'));
+      gsap.set('[data-recorrido-seccion]', { autoAlpha: 1, y: 0 });
+      return;
+    }
+
+    pintarCabeza();
+    disparo = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: pintarCabeza,
+      onRefresh: pintarCabeza,
+    });
+  };
+
+  if (!reduce) {
+    gsap.set('[data-recorrido-seccion]', { autoAlpha: 0, y: 24 });
+  } else {
+    gsap.set('[data-recorrido-seccion]', { autoAlpha: 1, y: 0 });
+  }
+
+  burbujas.forEach((burbuja) => {
+    burbuja.addEventListener('click', (e) => {
+      const href = burbuja.getAttribute('href');
+      if (!href?.startsWith('#')) return;
+      e.preventDefault();
+      const seccion = document.querySelector<HTMLElement>(href);
+      const ancla = seccion?.querySelector<HTMLElement>('h2') ?? seccion;
+      if (ancla) irA(ancla, lenis, extraAlCentro(ancla));
+      else irA(href, lenis, extraAlCentro(burbuja));
+      history.replaceState(null, '', href);
+    });
+  });
+
+  const pedirLayout = () => {
+    window.clearTimeout(layoutTimer);
+    layoutTimer = window.setTimeout(layout, 220);
+  };
+
+  layout();
+  window.addEventListener('load', pedirLayout);
+  window.addEventListener('resize', pedirLayout);
+
+  const contenido = document.querySelector('#contenido');
+  if (contenido && 'ResizeObserver' in window) {
+    const observer = new ResizeObserver(() => pedirLayout());
+    observer.observe(contenido);
+  }
 }
 
 function panelesCategoria() {

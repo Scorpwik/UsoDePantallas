@@ -7,25 +7,33 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, contexto, lugares = [] } = entrada.data;
-const cita =
-  'Mi observación está en lugares públicos. Hasta ahora solo observé en el patio de comidas del Quicentro Sur.';
+const { titulo, tema, contexto, lugares = [] } = entrada.data;
+const etiquetaSeccion = tema ?? titulo;
 ---
 
-<section id="escena" class="seccion">
+<section id="escena" class="seccion" data-recorrido-seccion>
   <div class="envolvente">
     <div class="grid grid-cols-[1.1fr_0.9fr] gap-16">
       <div data-bloque>
-        <span class="num-seccion">04 · {titulo}</span>
-        <h2 class="titulo-seccion">{titulo}</h2>
-        {contexto && <p class="prosa mt-8">{contexto}</p>}
+        <span class="num-seccion">04 · {etiquetaSeccion}</span>
+        {
+          tema ? (
+            <>
+              <h2 class="titulo-seccion">{tema}</h2>
+              <p class="titulo-seccion-apoyo text-texto">{titulo}</p>
+            </>
+          ) : (
+            <h2 class="titulo-seccion">{titulo}</h2>
+          )
+        }
       </div>
       <div class="space-y-8 pt-8" data-bloque>
-        <p class="cita-destacada">{cita}</p>
-        <div class="prosa">
-          <Content />
-        </div>
+        {contexto && <p class="cita-destacada">{contexto}</p>}
       </div>
+    </div>
+
+    <div class="prosa mt-10" data-bloque>
+      <Content />
     </div>
 
     {

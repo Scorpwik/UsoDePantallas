@@ -4,7 +4,6 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import Planteamiento from '../components/Planteamiento.astro';
-import Metodologia from '../components/Metodologia.astro';
 import EscenaCultural from '../components/EscenaCultural.astro';
 import Reflexividad from '../components/Reflexividad.astro';
 import DiarioTeaser from '../components/DiarioTeaser.astro';
@@ -13,8 +12,11 @@ import Conclusiones from '../components/Conclusiones.astro';
 import Reflexion from '../components/Reflexion.astro';
 import Referencias from '../components/Referencias.astro';
 import Footer from '../components/Footer.astro';
+import Recorrido from '../components/Recorrido.astro';
 // Marco teórico desactivado en la página; sigue editable en /admin (sección marco-teorico).
 // import MarcoTeorico from '../components/MarcoTeorico.astro';
+// Metodología desactivada en la página; sigue editable en /admin (sección metodologia).
+// import Metodologia from '../components/Metodologia.astro';
 
 const textos = await getEntry('textos', 'general');
 if (!textos) throw new Error('Falta src/content/textos/general.md');
@@ -23,7 +25,6 @@ const secciones = await getCollection('secciones');
 const porId = Object.fromEntries(secciones.map((s) => [s.id, s]));
 
 const planteamiento = porId['planteamiento'];
-const metodologia = porId['metodologia'];
 const escena = porId['escena'];
 const reflexividad = porId['reflexividad'];
 const conclusiones = porId['conclusiones'];
@@ -31,7 +32,6 @@ const reflexion = porId['reflexion'];
 
 if (
   !planteamiento ||
-  !metodologia ||
   !escena ||
   !reflexividad ||
   !conclusiones ||
@@ -55,11 +55,12 @@ const t = textos.data;
 
 <Layout
   title={`${t.titulo} — ${t.autor}`}
-  description={t.subtitulo}
+  description={t.subtitulo || t.titulo}
   autor={t.autor}
   fondos={diario.map((entrada) => entrada.data.imagenPrincipal)}
 >
   <Navbar actual="inicio" />
+  <Recorrido />
   <main id="contenido">
     <Hero
       titulo={t.titulo}
@@ -67,23 +68,20 @@ const t = textos.data;
       autor={t.autor}
       docente={t.docente}
       materia={t.materia}
-      fecha={t.fecha}
       ciudad={t.ciudad}
       salidas={t.salidas}
       observaciones={t.observaciones}
       entradasDiario={t.entradasDiario}
+      fotos={diario.map((entrada) => entrada.data.imagenPrincipal)}
     />
     <Planteamiento entrada={planteamiento} />
-    <Metodologia entrada={metodologia} />
-    <EscenaCultural entrada={escena} />
     <Reflexividad entrada={reflexividad} />
+    <EscenaCultural entrada={escena} />
     <DiarioTeaser entradas={diario} />
     <Categorias categorias={categorias} diario={diario} />
     <Conclusiones
       entrada={conclusiones}
       objetivos={planteamiento.data.objetivosEspecificos ?? []}
-      categorias={categorias}
-      diario={diario}
     />
     <Reflexion entrada={reflexion} />
     <Referencias referencias={referencias} />

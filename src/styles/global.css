@@ -44,7 +44,7 @@ body {
   overflow-x: auto;
 }
 
-body > *:not(.fondo-campo):not(.barra-progreso):not(.cursor-anillo):not(.skip-link):not(.navbar) {
+body > *:not(.fondo-campo):not(.recorrido):not(.cursor-anillo):not(.skip-link):not(.navbar) {
   position: relative;
   z-index: 1;
 }
@@ -98,47 +98,94 @@ body > *:not(.fondo-campo):not(.barra-progreso):not(.cursor-anillo):not(.skip-li
   opacity: 0.2;
 }
 
+.fondo-luz {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.fondo-luz--turquesa {
+  top: -14%;
+  left: -8%;
+  width: 920px;
+  height: 560px;
+  background: radial-gradient(ellipse at center, rgb(15 124 128 / 0.42), transparent 68%);
+}
+
+.fondo-luz--oro {
+  top: -8%;
+  right: -12%;
+  width: 780px;
+  height: 500px;
+  background: radial-gradient(ellipse at center, rgb(224 181 74 / 0.28), transparent 66%);
+}
+
+.fondo-luz--sombra {
+  right: 4%;
+  bottom: -18%;
+  width: 720px;
+  height: 520px;
+  background: radial-gradient(ellipse at center, rgb(94 80 63 / 0.62), transparent 68%);
+}
+
 .fondo-campo-gradiente {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background:
-    radial-gradient(920px 560px at 10% 6%, rgb(15 124 128 / 0.32), transparent 58%),
-    radial-gradient(780px 500px at 92% 14%, rgb(224 181 74 / 0.18), transparent 54%),
-    radial-gradient(720px 520px at 78% 92%, rgb(94 80 63 / 0.5), transparent 62%),
-    linear-gradient(180deg, rgb(10 9 8 / 0.42) 0%, rgb(10 9 8 / 0.78) 46%, rgb(10 9 8 / 0.94) 100%);
+  background: linear-gradient(180deg, rgb(10 9 8 / 0.42) 0%, rgb(10 9 8 / 0.78) 46%, rgb(10 9 8 / 0.94) 100%);
 }
 
-.fondo-blob {
+.fondo-mancha-wrap {
   position: absolute;
   z-index: 1;
-  border-radius: 50%;
-  filter: blur(80px);
+  inset: 0;
+  pointer-events: none;
   will-change: transform;
 }
 
-.fondo-blob--turquesa {
-  top: 18%;
+.fondo-mancha {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  will-change: transform;
+}
+
+.fondo-mancha--cafe {
+  top: 4%;
+  left: -10%;
+  width: 560px;
+  height: 560px;
+  background: #5e503f;
+  opacity: 0.32;
+}
+
+.fondo-mancha--turquesa {
+  top: 22%;
+  right: -8%;
+  width: 520px;
+  height: 520px;
+  background: #0f7c80;
+  opacity: 0.28;
+}
+
+.fondo-mancha--panel {
+  bottom: -6%;
+  left: 28%;
+  width: 640px;
+  height: 640px;
+  background: #22353b;
+  opacity: 0.35;
+}
+
+.fondo-mancha--mostaza {
+  top: 48%;
   left: 8%;
-  width: 420px;
-  height: 420px;
-  background: rgb(15 124 128 / 0.28);
-}
-
-.fondo-blob--mostaza {
-  top: 8%;
-  right: 12%;
-  width: 360px;
-  height: 360px;
-  background: rgb(224 181 74 / 0.16);
-}
-
-.fondo-blob--cafe {
-  bottom: 6%;
-  left: 38%;
   width: 480px;
   height: 480px;
-  background: rgb(94 80 63 / 0.35);
+  background: #e0b54a;
+  opacity: 0.25;
 }
 
 .fondo-grano {
@@ -206,7 +253,7 @@ body.cursor-custom img {
   position: absolute;
   left: 24px;
   top: -64px;
-  z-index: 80;
+  z-index: 230;
   border-radius: 8px;
   background: var(--enfasis);
   color: var(--fondo);
@@ -219,24 +266,80 @@ body.cursor-custom img {
   top: 16px;
 }
 
-.barra-progreso {
-  position: fixed;
+.recorrido {
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 70;
-  height: 3px;
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-  background: var(--enfasis);
+  z-index: 2;
+  width: 200px;
   pointer-events: none;
+}
+
+.recorrido-svg,
+.recorrido-svg path {
+  pointer-events: none;
+}
+
+.recorrido-svg {
+  display: block;
+  width: 200px;
+  overflow: visible;
+}
+
+.recorrido-paradas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.recorrido-parada {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border-radius: 999px;
+  border: 1.5px solid rgb(198 172 143 / 0.7);
+  background: rgb(34 53 59 / 0.96);
+  color: var(--texto);
+  text-decoration: none;
+  pointer-events: auto;
+  box-shadow: 0 8px 22px rgb(10 9 8 / 0.35);
+  transition:
+    background-color 0.45s ease,
+    border-color 0.45s ease,
+    color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.recorrido-parada.es-iluminada {
+  background: #e0b54a;
+  border-color: #e0b54a;
+  color: var(--fondo);
+  box-shadow: 0 0 28px rgb(224 181 74 / 0.5);
+}
+
+body:has(.recorrido) #contenido {
+  padding-left: 168px;
+  padding-right: 40px;
+}
+
+body:has(.recorrido) .envolvente {
+  width: min(1180px, 100%);
+  margin-inline: auto;
 }
 
 .cursor-anillo {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 90;
+  z-index: 220;
   width: 12px;
   height: 12px;
   margin: -6px 0 0 -6px;
@@ -251,7 +354,7 @@ body.cursor-custom img {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -260,6 +363,7 @@ body.cursor-custom img {
   padding: 14px 40px 12px;
   background: rgb(10 9 8 / 0.82);
   border-bottom: 1px solid rgb(234 224 213 / 0.1);
+  pointer-events: auto;
   backdrop-filter: blur(16px);
 }
 
@@ -318,6 +422,8 @@ body.cursor-custom img {
 .seccion {
   position: relative;
   padding: 96px 0;
+  background: transparent;
+  border: 0;
 }
 
 .num-seccion {
@@ -338,6 +444,16 @@ body.cursor-custom img {
   max-width: 18ch;
 }
 
+.titulo-seccion-apoyo {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  max-width: 22ch;
+}
+
 .subtitulo {
   font-family: var(--font-display);
   font-size: 24px;
@@ -349,6 +465,12 @@ body.cursor-custom img {
 .prosa {
   max-width: 680px;
   color: var(--arena);
+}
+
+.prosa-destacada {
+  font-weight: 600;
+  color: var(--texto);
+  line-height: 1.55;
 }
 
 .prosa p + p {
@@ -431,18 +553,30 @@ body.cursor-custom img {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 96px 0 72px;
+  padding: 88px 0 64px;
+}
+
+.hero-escena {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(480px, 1fr) minmax(360px, 0.92fr);
+  gap: 36px 28px;
+  align-items: center;
+  width: min(1280px, 100%);
+  margin-inline: auto;
 }
 
 .hero-orbita {
   position: absolute;
-  right: -6%;
-  top: 42%;
+  right: 4%;
+  top: 46%;
   z-index: 0;
-  width: 620px;
-  height: 620px;
+  width: 520px;
+  height: 520px;
   translate: 0 -50%;
   pointer-events: none;
+  opacity: 0.45;
 }
 
 .hero-anillo {
@@ -469,7 +603,59 @@ body.cursor-custom img {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
+  min-width: 0;
+}
+
+.hero-carrusel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 560px;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+.hero-carrusel-fila {
+  overflow: hidden;
+  flex: 1;
+}
+
+.hero-carrusel-track {
+  display: flex;
+  gap: 14px;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.hero-carrusel-foto {
+  flex: 0 0 210px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.hero-carrusel-foto--baja {
+  flex-basis: 188px;
+}
+
+.hero-carrusel-foto picture,
+.hero-carrusel-foto .img-campo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero h1 {
@@ -648,7 +834,7 @@ body.cursor-custom img {
 
 .categorias-deck {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
@@ -692,7 +878,7 @@ body.cursor-custom img {
   display: flex;
 }
 
-.categorias-seccion.es-panel-abierto .categorias-deck {
+.categorias-seccion.es-panel-abierto .categorias-layout {
   display: none;
 }
 
@@ -791,7 +977,11 @@ body.cursor-custom img {
   .cifra,
   .cat-num,
   .hero-anillo,
-  .lugares-grid [data-lugar] > p:first-child {
+  .hero-carrusel-track,
+  .lugares-grid [data-lugar] > p:first-child,
+  .fondo-mancha,
+  .fondo-mancha-wrap,
+  .fondo-luz {
     animation: none;
   }
 

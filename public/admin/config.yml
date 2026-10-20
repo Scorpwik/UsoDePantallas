@@ -69,6 +69,7 @@ collections:
           - { name: texto, label: Texto, widget: text }
       - { name: enfoque, label: Enfoque, widget: text, required: false }
       - { name: posicion, label: Posición del investigador, widget: text, required: false }
+      - { name: participacion, label: Nivel de participación (texto), widget: text, required: false }
       - { name: sesgo, label: Sesgo declarado, widget: text, required: false }
       - { name: etica, label: Consideraciones éticas, widget: text, required: false }
       - { name: contexto, label: Contexto de observación, widget: text, required: false }
@@ -116,7 +117,10 @@ collections:
       - { name: hora, label: Hora, widget: string, hint: "Formato 24h, por ejemplo 13:25" }
       - { name: espacio, label: Espacio, widget: string }
       - { name: descripcion, label: Descripción, widget: text }
-      - { name: impresiones, label: Impresiones sensoriales, widget: text }
+      - name: impresiones
+        label: Impresiones sensoriales
+        widget: list
+        field: { name: impresion, label: Impresión, widget: string }
       - { name: reflexion, label: Reflexión, widget: text }
       - name: frases
         label: Frases de los participantes

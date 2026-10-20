@@ -8,11 +8,9 @@ interface Props {
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
 const { titulo, tema, pregunta, objetivoGeneral, objetivosEspecificos = [] } = entrada.data;
-const cita =
-  'La investigación no pregunta si las pantallas son buenas o malas. Pregunta cómo se usan, en qué momento aparecen y qué dejan de ocurrir cuando aparecen.';
 ---
 
-<section id="planteamiento" class="seccion">
+<section id="planteamiento" class="seccion" data-recorrido-seccion>
   <div class="envolvente">
     <span class="num-seccion">02 · {titulo}</span>
     {
@@ -60,7 +58,6 @@ const cita =
             </div>
           )
         }
-        <blockquote class="cita-destacada mt-10 max-w-[22ch]">{cita}</blockquote>
       </div>
       <div class="prosa" data-bloque>
         <Content />

@@ -8,14 +8,17 @@ interface Props {
 
 const { entrada } = Astro.props;
 const { Content } = await render(entrada);
-const { titulo, posicion, sesgo } = entrada.data;
+const { titulo, posicion, participacion, sesgo } = entrada.data;
+const textoParticipacion =
+  participacion ??
+  'Solo observé desde afuera con el objetivo de no intervenir en la escena y dejar que todas las cosas sucedieran con naturalidad, sin que fueran fingidas ni condicionadas.';
 ---
 
-<section id="reflexividad" class="seccion">
+<section id="reflexividad" class="seccion" data-recorrido-seccion>
   <div class="envolvente">
-    <span class="num-seccion">05 · {titulo}</span>
+    <span class="num-seccion">03 · {titulo}</span>
     <h2 class="titulo-seccion">{titulo}</h2>
-    <div class="mt-10 grid grid-cols-2 gap-4">
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {
         posicion && (
           <PanelCristal data-bloque>
@@ -32,6 +35,10 @@ const { titulo, posicion, sesgo } = entrada.data;
           </PanelCristal>
         )
       }
+      <PanelCristal data-bloque>
+        <h3 class="subtitulo">Nivel de participación: no participante</h3>
+        <p class="mt-4 text-arena">{textoParticipacion}</p>
+      </PanelCristal>
     </div>
 
     <div class="prosa mt-10" data-bloque>

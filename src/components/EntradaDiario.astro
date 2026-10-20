@@ -69,7 +69,11 @@ const nombres = d.categorias.map((id) => etiquetas[id] ?? id);
             <h4 class="font-semibold text-texto">Descripción de la escena</h4>
             <p class="mt-2 text-arena">{d.descripcion}</p>
             <h4 class="mt-6 font-semibold text-texto">Impresiones sensoriales</h4>
-            <p class="mt-2 text-arena">{d.impresiones}</p>
+            <ul class="mt-2 list-disc space-y-2 pl-5 text-arena">
+              {d.impresiones.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
           </div>
           <div>
             <h4 class="font-semibold text-texto">Impresiones y reflexiones como investigador</h4>

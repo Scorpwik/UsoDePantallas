@@ -12,7 +12,6 @@ const textos = defineCollection({
     autor: z.string(),
     docente: z.string(),
     materia: z.string(),
-    fecha: z.coerce.date(),
     ciudad: z.string(),
     salidas: z.number(),
     observaciones: z.number(),
@@ -35,8 +34,15 @@ const secciones = defineCollection({
     impactoDesarrollo: z
       .array(z.object({ titulo: z.string(), texto: z.string() }))
       .optional(),
-    enfoque: z.string().optional(),
+    enfoque: z
+      .union([z.string(), z.array(z.string())])
+      .optional()
+      .transform((value) => {
+        if (value == null || value === '') return undefined;
+        return Array.isArray(value) ? value : [value];
+      }),
     posicion: z.string().optional(),
+    participacion: z.string().optional(),
     sesgo: z.string().optional(),
     etica: z.string().optional(),
     contexto: z.string().optional(),
@@ -62,7 +68,13 @@ const diario = defineCollection({
     hora: z.string(),
     espacio: z.string(),
     descripcion: z.string(),
-    impresiones: z.string(),
+    impresiones: z
+      .union([z.string(), z.array(z.string())])
+      .transform((value) => {
+        if (Array.isArray(value)) return value;
+        const texto = value.trim();
+        return texto ? [texto] : [];
+      }),
     reflexion: z.string(),
     frases: z.array(z.string()).default([]),
     categorias: z.array(categoriaId),

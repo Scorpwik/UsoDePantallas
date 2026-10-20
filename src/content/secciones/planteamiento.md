@@ -10,4 +10,4 @@ objetivosEspecificos:
   - "Ver qué hacen los papás mientras el niño usa el celular."
 ---
 
-El planteamiento nace de una escena repetida en Quito: un niño se inquieta en la fila o en la mesa, el adulto busca el teléfono y, en pocos segundos, el espacio público se reorganiza alrededor de una luz. La investigación no pregunta si las pantallas son buenas o malas. Pregunta cómo se usan, en qué momento aparecen y qué dejan de ocurrir cuando aparecen.
+El planteamiento nace de una escena repetida en Quito: un niño se inquieta en la fila o en la mesa, el adulto busca el teléfono y, en pocos segundos, el espacio del niño gira alrededor del celular.
