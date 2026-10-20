@@ -1,13 +1,12 @@
 ---
-import { render, type CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   entrada: CollectionEntry<'secciones'>;
 }
 
 const { entrada } = Astro.props;
-const { Content } = await render(entrada);
-const { titulo, tema, pregunta, objetivoGeneral, objetivosEspecificos = [] } = entrada.data;
+const { titulo, pregunta, objetivoGeneral, objetivosEspecificos = [] } = entrada.data;
 ---
 
 <section id="planteamiento" class="seccion" data-recorrido-seccion>
@@ -47,21 +46,5 @@ const { titulo, tema, pregunta, objetivoGeneral, objetivosEspecificos = [] } = e
         </div>
       )
     }
-
-    <div class="mt-12 grid grid-cols-[0.9fr_1.1fr] gap-16">
-      <div data-bloque>
-        {
-          tema && (
-            <div>
-              <h3 class="subtitulo">Tema</h3>
-              <p class="prosa mt-4">{tema}</p>
-            </div>
-          )
-        }
-      </div>
-      <div class="prosa" data-bloque>
-        <Content />
-      </div>
-    </div>
   </div>
 </section>
