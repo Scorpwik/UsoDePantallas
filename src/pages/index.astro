@@ -11,6 +11,7 @@ import Categorias from '../components/Categorias.astro';
 import Conclusiones from '../components/Conclusiones.astro';
 import Reflexion from '../components/Reflexion.astro';
 import Referencias from '../components/Referencias.astro';
+import UsoDeIA from '../components/UsoDeIA.astro';
 import Footer from '../components/Footer.astro';
 import Recorrido from '../components/Recorrido.astro';
 // Marco teórico desactivado en la página; sigue editable en /admin (sección marco-teorico).
@@ -88,6 +89,7 @@ const t = textos.data;
     />
     <Reflexion entrada={reflexion} />
     <Referencias referencias={referencias} />
+    <UsoDeIA />
   </main>
   <Footer autor={t.autor} docente={t.docente} materia={t.materia} />
 </Layout>

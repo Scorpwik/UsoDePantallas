@@ -8,6 +8,7 @@ const paradas = [
   { id: 'conclusiones', label: 'Conclusiones', icono: 'nota' },
   { id: 'reflexion', label: 'Reflexión', icono: 'punto' },
   { id: 'referencias', label: 'Referencias', icono: 'lista' },
+  { id: 'uso-ia', label: 'Uso de IA', icono: 'chispa' },
 ] as const;
 ---
 
@@ -233,6 +234,18 @@ const paradas = [
                   stroke="currentColor"
                   stroke-width="1.7"
                   stroke-linecap="round"
+                />
+              </>
+            )}
+            {parada.icono === 'chispa' && (
+              <>
+                <path
+                  d="M12 3.4 13.1 9.4 19 12 13.1 14.6 12 20.6 10.9 14.6 5 12 10.9 9.4Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 />
               </>
             )}

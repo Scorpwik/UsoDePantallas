@@ -772,6 +772,55 @@ body:has(.recorrido) .envolvente {
   border-bottom: 1px solid rgb(44 24 20 / 0.1);
 }
 
+.uso-ia-texto {
+  max-width: 42ch;
+  color: var(--arena);
+}
+
+.uso-ia-marcas {
+  display: flex;
+  align-items: end;
+  gap: 48px;
+  margin-top: 40px;
+}
+
+.uso-ia-marca {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.uso-ia-marca figcaption {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.uso-ia-logo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  animation: uso-ia-flotar 5.6s ease-in-out infinite;
+}
+
+.uso-ia-logo--tarde {
+  animation-duration: 6.5s;
+  animation-delay: -2.1s;
+}
+
+@keyframes uso-ia-flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 .metodologia-grid {
   display: grid;
   grid-template-columns: 0.38fr 0.62fr;
@@ -1299,7 +1348,8 @@ body:has(.recorrido) .envolvente {
   .lugares-grid [data-lugar] > p:first-child,
   .fondo-mancha,
   .fondo-mancha-wrap,
-  .fondo-luz {
+  .fondo-luz,
+  .uso-ia-logo {
     animation: none;
   }
 
