@@ -25,77 +25,83 @@ const nombres = d.categorias.map((id) => etiquetas[id] ?? id);
 <article class:list={['cat-entrada', compacta && 'h-full']} id={compacta ? undefined : `entrada-${entrada.id}`}>
   {
     compacta ? (
-      <div class="tarjeta h-full overflow-hidden !p-0">
-        <div class="grid grid-cols-[280px_1fr] gap-0">
-          <div class="diario-foto diario-foto--compacta rounded-none">
-            <ImagenCampo
-              src={d.imagenPrincipal}
-              alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
-              class="img-campo"
-              eager={eager}
-            />
-          </div>
-          <div class="p-7">
-            <p class="text-sm text-texto">
-              {fecha} · {d.hora} · {d.espacio}
-            </p>
-            <h3 class="subtitulo mt-3">{d.titulo}</h3>
-            <p class="mt-4 text-arena">{d.descripcion}</p>
-            <p class="mt-6 text-xs text-arena">{d.notaPrivacidad}</p>
-          </div>
-        </div>
-      </div>
-    ) : (
-      <PanelCristal class="overflow-hidden">
-        <p class="text-sm font-semibold text-enfasis">
-          {fecha} · {d.hora}
-        </p>
-        <p class="mt-1 text-sm text-arena">{d.espacio}</p>
-        <h3 class="mt-4 font-display text-[28px] font-bold tracking-tight">{d.titulo}</h3>
-
-        <figure class="diario-foto mt-6" data-mask-img data-cursor-img>
+      <div class="tarjeta entrada-compacta h-full overflow-hidden !p-0">
+        <div class="entrada-compacta-foto">
           <ImagenCampo
             src={d.imagenPrincipal}
             alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
-            class="img-campo"
             eager={eager}
-            width={1600}
-            height={900}
+            width={900}
+            height={675}
           />
-        </figure>
+        </div>
+        <div class="entrada-compacta-texto">
+          <p class="entrada-cuando">
+            {fecha} · {d.hora}
+          </p>
+          <p class="entrada-donde">{d.espacio}</p>
+          <h3 class="entrada-titulo">{d.titulo}</h3>
+          <p class="entrada-resumen">{d.descripcion}</p>
+        </div>
+      </div>
+    ) : (
+      <PanelCristal class="entrada-panel overflow-hidden" revelar={false}>
+        <header class="entrada-cabecera">
+          <p class="entrada-cuando">
+            {fecha} · {d.hora}
+          </p>
+          <p class="entrada-donde">{d.espacio}</p>
+          <h3 class="entrada-titulo">{d.titulo}</h3>
+        </header>
 
-        <div class="mt-8 grid grid-cols-2 gap-12">
-          <div>
-            <h4 class="font-semibold text-texto">Descripción de la escena</h4>
-            <p class="mt-2 text-arena">{d.descripcion}</p>
-            <h4 class="mt-6 font-semibold text-texto">Impresiones sensoriales</h4>
-            <ul class="mt-2 list-disc space-y-2 pl-5 text-arena">
-              {d.impresiones.map((item) => (
-                <li>{item}</li>
+        <div class="entrada-cuerpo">
+          <figure class="entrada-foto" data-cursor-img tabindex="0" role="button" aria-label={`Ampliar foto de ${d.espacio}`}>
+            <ImagenCampo
+              src={d.imagenPrincipal}
+              alt={`Registro visual desenfocado de ${d.espacio}. ${d.notaPrivacidad}`}
+              eager={eager}
+              width={1200}
+              height={900}
+            />
+          </figure>
+
+          <div class="entrada-notas">
+            <section class="entrada-bloque">
+              <h4>Descripción de la escena</h4>
+              <p>{d.descripcion}</p>
+            </section>
+            <section class="entrada-bloque">
+              <h4>Impresiones sensoriales</h4>
+              <ul class="entrada-lista">
+                {d.impresiones.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        </div>
+
+        <section class="entrada-reflexion entrada-bloque">
+          <h4>Impresiones y reflexiones como investigador</h4>
+          <p>{d.reflexion}</p>
+          {
+            d.frases.length > 0 && (
+              <blockquote class="cita-destacada">“{d.frases[0]}”</blockquote>
+            )
+          }
+        </section>
+
+        <footer class="entrada-pie">
+          <div class="entrada-bloque">
+            <h4>Categorías identificadas</h4>
+            <ul class="entrada-chips">
+              {nombres.map((nombre) => (
+                <li class="chip">{nombre}</li>
               ))}
             </ul>
           </div>
-          <div>
-            <h4 class="font-semibold text-texto">Impresiones y reflexiones como investigador</h4>
-            <p class="mt-2 text-arena">{d.reflexion}</p>
-            {
-              d.frases.length > 0 && (
-                <blockquote class="cita-destacada mt-6">“{d.frases[0]}”</blockquote>
-              )
-            }
-          </div>
-        </div>
-
-        <div class="mt-8">
-          <h4 class="font-semibold text-texto">Categorías identificadas</h4>
-          <ul class="mt-3 flex flex-wrap gap-2">
-            {nombres.map((nombre) => (
-              <li class="chip">{nombre}</li>
-            ))}
-          </ul>
-        </div>
-
-        <p class="mt-8 text-xs text-arena">{d.notaPrivacidad}</p>
+          <p class="entrada-privacidad">{d.notaPrivacidad}</p>
+        </footer>
       </PanelCristal>
     )
   }

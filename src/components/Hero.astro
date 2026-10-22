@@ -81,7 +81,7 @@ const filaB = unicas.length ? [...unicas.slice().reverse(), ...unicas.slice().re
             <div class="hero-carrusel-track" data-hero-track="a">
               {filaA.map((src, i) => (
                 <div class="hero-carrusel-foto">
-                  <ImagenCampo src={src} alt="" width={640} height={800} eager={i < 3} />
+                  <ImagenCampo src={src} alt="" width={420} height={525} eager={i < 2} />
                 </div>
               ))}
             </div>
@@ -90,7 +90,7 @@ const filaB = unicas.length ? [...unicas.slice().reverse(), ...unicas.slice().re
             <div class="hero-carrusel-track" data-hero-track="b">
               {filaB.map((src) => (
                 <div class="hero-carrusel-foto hero-carrusel-foto--baja">
-                  <ImagenCampo src={src} alt="" width={640} height={800} />
+                  <ImagenCampo src={src} alt="" width={380} height={475} />
                 </div>
               ))}
             </div>

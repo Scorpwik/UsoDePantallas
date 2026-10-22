@@ -8,13 +8,20 @@ interface Props {
   eager?: boolean;
 }
 
-const { src, alt, class: className, width = 1600, height = 1000, eager = false } = Astro.props;
-const esRaster = /\.(jpe?g|png|webp|avif)$/i.test(src);
-const webp = esRaster ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
+const {
+  src,
+  alt,
+  class: className,
+  width = 1600,
+  height = 1000,
+  eager = false,
+} = Astro.props;
+const esJpgPng = /\.(jpe?g|png)$/i.test(src);
+const webp = esJpgPng ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
 ---
 
 {
-  esRaster ? (
+  esJpgPng ? (
     <picture>
       <source srcset={webp} type="image/webp" />
       <img
@@ -23,7 +30,7 @@ const webp = esRaster ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
         width={width}
         height={height}
         loading={eager ? 'eager' : 'lazy'}
-        fetchpriority={eager ? 'high' : 'auto'}
+        fetchpriority={eager ? 'high' : undefined}
         decoding="async"
         class:list={['img-campo', className]}
       />
@@ -35,7 +42,7 @@ const webp = esRaster ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
       width={width}
       height={height}
       loading={eager ? 'eager' : 'lazy'}
-      fetchpriority={eager ? 'high' : 'auto'}
+      fetchpriority={eager ? 'high' : undefined}
       decoding="async"
       class:list={['img-campo', className]}
     />

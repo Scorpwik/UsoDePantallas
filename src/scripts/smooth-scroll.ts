@@ -6,13 +6,20 @@ export function initSmoothScroll(): Lenis | null {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return null;
 
-  const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+  const lenis = new Lenis({ autoRaf: false, lerp: 0.16, wheelMultiplier: 1 });
   lenis.on('scroll', ScrollTrigger.update);
 
-  gsap.ticker.add((time) => {
+  const tick = (time: number) => {
     lenis.raf(time * 1000);
-  });
+  };
+  gsap.ticker.add(tick);
   gsap.ticker.lagSmoothing(0);
+
+  const destruir = lenis.destroy.bind(lenis);
+  lenis.destroy = () => {
+    gsap.ticker.remove(tick);
+    destruir();
+  };
 
   return lenis;
 }

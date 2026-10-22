@@ -11,11 +11,7 @@ const { Content } = await render(entrada);
 const { titulo, enfoque, posicion, etica } = entrada.data;
 const cita = 'La unidad de análisis es el episodio.';
 
-const enfoqueItems = Array.isArray(enfoque)
-  ? enfoque
-  : typeof enfoque === 'string' && enfoque.trim()
-    ? [enfoque]
-    : [];
+const enfoqueItems = Array.isArray(enfoque) ? enfoque : [];
 
 const bloques = [
   { titulo: 'Enfoque', items: enfoqueItems },

@@ -6,7 +6,7 @@ import Hero from '../components/Hero.astro';
 import Planteamiento from '../components/Planteamiento.astro';
 import EscenaCultural from '../components/EscenaCultural.astro';
 import Reflexividad from '../components/Reflexividad.astro';
-import DiarioTeaser from '../components/DiarioTeaser.astro';
+import DiarioCamara from '../components/DiarioCamara.astro';
 import Categorias from '../components/Categorias.astro';
 import Conclusiones from '../components/Conclusiones.astro';
 import Reflexion from '../components/Reflexion.astro';
@@ -59,7 +59,7 @@ const t = textos.data;
   autor={t.autor}
   fondos={diario.map((entrada) => entrada.data.imagenPrincipal)}
 >
-  <Navbar actual="inicio" />
+  <Navbar />
   <Recorrido />
   <main id="contenido">
     <Hero
@@ -77,7 +77,10 @@ const t = textos.data;
     <Planteamiento entrada={planteamiento} />
     <Reflexividad entrada={reflexividad} />
     <EscenaCultural entrada={escena} />
-    <DiarioTeaser entradas={diario} />
+    <DiarioCamara
+      entradas={diario}
+      etiquetas={Object.fromEntries(categorias.map((cat) => [cat.id, cat.data.titulo]))}
+    />
     <Categorias categorias={categorias} diario={diario} />
     <Conclusiones
       entrada={conclusiones}

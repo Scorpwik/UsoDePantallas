@@ -35,6 +35,8 @@ const canonico = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Ast
     <meta property="og:description" content={description} />
     <meta property="og:type" content="article" />
     <meta property="og:locale" content="es_EC" />
+    <meta property="og:url" content={canonico} />
+    <link rel="preload" as="image" href="/sequences/camara/web_0001.webp" />
     <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',

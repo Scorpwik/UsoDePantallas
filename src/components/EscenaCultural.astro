@@ -19,11 +19,11 @@ const etiquetaSeccion = tema ?? titulo;
         {
           tema ? (
             <>
-              <h2 class="titulo-seccion">{tema}</h2>
+              <h2 class="titulo-seccion" data-recorrido-ancla>{tema}</h2>
               <p class="titulo-seccion-apoyo text-texto">{titulo}</p>
             </>
           ) : (
-            <h2 class="titulo-seccion">{titulo}</h2>
+            <h2 class="titulo-seccion" data-recorrido-ancla>{titulo}</h2>
           )
         }
       </div>

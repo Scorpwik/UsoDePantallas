@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { imagenes = [] } = Astro.props;
-const fotos = [...new Set(imagenes.filter(Boolean))].slice(0, 4);
+const fotos = [...new Set(imagenes.filter(Boolean))].slice(0, 2);
 ---
 
 <div class="fondo-campo" aria-hidden="true">
@@ -13,10 +13,13 @@ const fotos = [...new Set(imagenes.filter(Boolean))].slice(0, 4);
       <img
         src={src}
         alt=""
+        width="800"
+        height="500"
         class={`fondo-campo-foto fondo-campo-foto--${i + 1}`}
         data-fondo-foto
-        loading="eager"
+        loading="lazy"
         decoding="async"
+        fetchpriority="low"
       />
     ))
   }

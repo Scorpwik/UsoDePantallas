@@ -1,35 +1,24 @@
 ---
-interface Props {
-  actual?: 'inicio' | 'diario';
-}
-
-const { actual = 'inicio' } = Astro.props;
-const enDiario = actual === 'diario';
-const origen = enDiario ? '/' : '';
-
 const enlaces = [
-  { href: `${origen}#inicio`, label: 'Inicio' },
-  { href: `${origen}#planteamiento`, label: 'Planteamiento' },
-  { href: `${origen}#reflexividad`, label: 'Reflexividad' },
-  { href: `${origen}#escena`, label: 'Escena cultural' },
-  { href: '/diario', label: 'Diario de campo', pagina: 'diario' },
-  { href: `${origen}#categorias`, label: 'Categorías' },
-  { href: `${origen}#conclusiones`, label: 'Conclusiones' },
-  { href: `${origen}#reflexion`, label: 'Reflexión sobre el proceso' },
-  { href: `${origen}#referencias`, label: 'Referencias' },
+  { href: '#inicio', label: 'Inicio' },
+  { href: '#planteamiento', label: 'Planteamiento' },
+  { href: '#reflexividad', label: 'Reflexividad' },
+  { href: '#escena', label: 'Escena cultural' },
+  { href: '#diario', label: 'Diario de campo' },
+  { href: '#categorias', label: 'Categorías' },
+  { href: '#conclusiones', label: 'Conclusiones' },
+  { href: '#reflexion', label: 'Reflexión sobre el proceso' },
+  { href: '#referencias', label: 'Referencias' },
 ];
 ---
 
 <nav class="navbar" data-nav aria-label="Secciones del informe">
-  <a class="navbar-marca" href={`${origen}#inicio`}>Uso de pantallas</a>
+  <a class="navbar-marca" href="#inicio">Uso de pantallas</a>
   <div class="navbar-links">
     <span class="navbar-indicador" data-nav-indicador aria-hidden="true"></span>
     {
       enlaces.map((enlace) => (
-        <a
-          href={enlace.href}
-          aria-current={enlace.pagina === actual ? 'page' : undefined}
-        >
+        <a href={enlace.href} aria-current={enlace.href === '#inicio' ? 'location' : undefined}>
           {enlace.label}
         </a>
       ))

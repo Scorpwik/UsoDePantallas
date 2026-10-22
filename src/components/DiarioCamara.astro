@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import EntradaDiario from './EntradaDiario.astro';
+
+interface Props {
+  entradas: CollectionEntry<'diario'>[];
+  etiquetas: Record<string, string>;
+}
+
+const { entradas, etiquetas } = Astro.props;
+const total = 180;
+---
+
+<section
+  id="diario"
+  class="seccion diario-camara"
+  data-recorrido-seccion
+  data-camara-seccion
+  data-camara-total={String(total)}
+>
+  <div class="diario-camara-marco">
+    <div class="diario-camara-intro">
+      <span class="num-seccion">05 · Diario de campo</span>
+      <h2 class="titulo-seccion" data-recorrido-ancla>Diario de campo</h2>
+      <p class="prosa prosa-destacada mt-6" data-bloque>
+        Cada escena la observé durante unos treinta minutos. Usé la fotografía y una edición
+        en blanco y negro para separar el fondo de la escena y destacar la acción en la que
+        me estoy enfocando para la investigación.
+      </p>
+    </div>
+
+    <div class="diario-camara-pista">
+      <div class="diario-camara-vuelo" aria-hidden="true">
+        <canvas class="diario-camara-lienzo" data-camara width="520" height="520"></canvas>
+      </div>
+      <div class="diario-camara-lista">
+        {
+          entradas.map((entrada, i) => {
+            const lado = i % 2 === 0 ? 'derecha' : 'izquierda';
+            return (
+              <div
+                class="diario-camara-entrada"
+                data-entrada-scroll
+                data-lado={lado}
+                data-espera={i > 0 ? '' : undefined}
+              >
+                {lado === 'izquierda' && <div class="diario-camara-hueco" aria-hidden="true" />}
+                <EntradaDiario entrada={entrada} eager={i === 0} etiquetas={etiquetas} />
+                {lado === 'derecha' && <div class="diario-camara-hueco" aria-hidden="true" />}
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
